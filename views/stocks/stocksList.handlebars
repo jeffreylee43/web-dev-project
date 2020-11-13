@@ -1,0 +1,16 @@
+<div>
+    <h1>List of Stocks</h1>
+
+    <div class="listLayout">
+    {{#each allCompanies}}
+        <div class="companyBox">
+            <a href="../companies/{{this.ticker}}">
+            {{this.name}} ({{this.ticker}})
+            </a>
+            <p>Price: {{this.price}}</p>
+            <p>Rating: </p>
+        </div>
+    {{/each}}
+    </div>
+
+</div>

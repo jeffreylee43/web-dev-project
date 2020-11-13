@@ -1,0 +1,18 @@
+.listLayout {
+    display: flex;
+	flex-wrap: wrap;
+	margin: auto;
+}
+
+.companyBox {
+    margin: 20px;
+    padding: 10px;
+    height: 100px;
+    background-color: lightgrey;
+    width: 30%;
+    border-radius: 10px;
+}
+
+.companyBox:hover {
+    background-color: lightblue;
+}
