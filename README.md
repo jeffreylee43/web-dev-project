@@ -10,32 +10,32 @@ This project features a stocks dashboard. Users can login to their account and t
 # Core Features:  
 
 # Landing Page:  
--Explains that the website is a service for people to create and store their stocks dashboard.
--Leads to log-in page
+-Explains that the website is a service for people to create and store their stocks dashboard  
+-Leads to log-in page  
 
 # Log-in Page:  
--Login screen
--Users can register for an account using their email address
+-Login screen  
+-Users can register for an account using their email address  
 
 # Dashboard:  
--Displays list of stocks and their price
--Users can add or remove stocks from their list
--Each stock will display number of stars (out of 5) based on average users
--Users will be able to remove stock from the dashboard by clicking the remove button.
--Users will be able to sort their dashboard based on price, name, or review.
+-Displays list of stocks and their price  
+-Users can add or remove stocks from their list  
+-Each stock will display number of stars (out of 5) based on average users  
+-Users will be able to remove stock from the dashboard by clicking the remove button.  
+-Users will be able to sort their dashboard based on price, name, or review.  
 
 # Stocks Listing Page:  
--Users will be able to add stocks to their dashboard.
--Each company listing will have a brief description and overall buyer rating.
--Users will be able add stocks to their dashboard directly by clicking the add button next to a stock listing.
--Ability to sort by price, name, or average review.
--Ability to search for stocks not in the top 25. If there are none available, there will be a message prompted to the user “Not currently available.”
+-Users will be able to add stocks to their dashboard.  
+-Each company listing will have a brief description and overall buyer rating.  
+-Users will be able add stocks to their dashboard directly by clicking the add button next to a stock listing.  
+-Ability to sort by price, name, or average review.  
+-Ability to search for stocks not in the top 25. If there are none available, there will be a message prompted to the user “Not currently available.”  
 
 # Individual Users History Feature:  
--Contains a log of past activity of the User (additions/removals of different stocks and any reviews added)
+-Contains a log of past activity of the User (additions/removals of different stocks and any reviews added)  
 
 # Individual Stock Pages:  
--Provides an overview of the company profile (name, ticker, description, price of stock, market cap, industry, number of employees).
--Users will be able to submit reviews for all other users to see.
--Users will be able to add the stock to their dashboard
--Provides the average rating out of 5 stars among all reviewers.
+-Provides an overview of the company profile (name, ticker, description, price of stock, market cap, industry, number of employees).  
+-Users will be able to submit reviews for all other users to see.  
+-Users will be able to add the stock to their dashboard  
+-Provides the average rating out of 5 stars among all reviewers.  
