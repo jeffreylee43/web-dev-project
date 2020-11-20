@@ -1,5 +1,4 @@
-const companiesData = require('./companies');
-
 module.exports = {
-  companies: companiesData
+    companies: require('./companies'),
+    traders: require('./traders'),
 };
