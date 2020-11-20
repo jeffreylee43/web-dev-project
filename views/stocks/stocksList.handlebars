@@ -1,16 +1,32 @@
 <div>
     <h1>List of Stocks</h1>
 
+    <form action="/">
+        <div class="stockMod">
+            <label for="sort">Sort By</label>
+            <select id="sort" name="sort">
+                <option value="name">name</option>
+                <option value="price">price</option>
+                <option value="rating">rating</option>
+            </select>
+            <input type="submit">
+        </div>
+    </form>
+
     <div class="listLayout">
-    {{#each allCompanies}}
+        {{#each allCompanies}}
         <div class="companyBox">
             <a href="../companies/{{this.ticker}}">
-            {{this.name}} ({{this.ticker}})
+                {{this.name}} ({{this.ticker}})
             </a>
             <p>Price: {{this.price}}</p>
             <p>Rating: </p>
         </div>
-    {{/each}}
+
+        <div>
+            <button type="submit">Add</button>
+        </div>
+        {{/each}}
     </div>
 
 </div>
