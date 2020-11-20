@@ -4,6 +4,7 @@ const data = require('../data');
 const traders = data.traders;
 
 router.get('/', async (req, res) => {
+<<<<<<< HEAD
     res.render('users/register', {title: "Register", hasErrors: false, errors: []});
 });
 
@@ -25,6 +26,9 @@ router.post('/', async (req, res) => {
         res.render('users/dashboard', {title: "Your Dashboard"});
     }
     
+=======
+    res.render('users/register', { title: 'Register' });
+>>>>>>> 2edcc3c00c72fe723f85384c5a404efa996baccd
 });
 
 module.exports = router;
