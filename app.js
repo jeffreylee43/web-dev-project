@@ -20,6 +20,15 @@ app.use(session({
   cookie: {maxAge: 60000}
 }));
 
+// app.use('/', (req, res, next) => {
+//   if(req.session.user) {
+//     return res.render('users/dashboard', {title: "Your Dashboard"});
+//   }
+//   else {
+//     next();
+//   }
+// });
+
 app.use('/users/dashboard', (req, res, next) => {
   if(!req.session.user) {
       return res.status(403).render('users/notLoggedIn', {title: "Not Logged In"});

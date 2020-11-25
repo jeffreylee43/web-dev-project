@@ -5,8 +5,10 @@ const traders = data.traders;
 const bcrypt = require('bcryptjs');
 
 router.get('/', async (req, res) => {
-<<<<<<< HEAD
-    res.render('users/login', { title: "Login" });
+    if(req.session.user) {
+        return res.redirect("users/dashboard");
+    }
+    res.render('users/login', { title: "Login", loggedIn: false, hasError: false, errors: []});
 });
 
 router.post('/', async (req, res) => {
@@ -22,15 +24,12 @@ router.post('/', async (req, res) => {
                 return res.redirect('/users/dashboard');
             } else {
                 errors.push('You did not provide a valid password');
-                return res.status(401).render('users/login', {title: "Login", hasError: true, errors: errors});
+                return res.status(401).render('users/login', {title: "Login", loggedIn: false, hasError: true, errors: errors});
             }
         }
     }
     errors.push('You did not provide a valid username');
-    res.status(401).render('users/login', {title: "Login", hasError: true, errors: errors});
-=======
-    res.render('users/login', { title: 'Login' });
->>>>>>> 2edcc3c00c72fe723f85384c5a404efa996baccd
+    res.status(401).render('users/login', {title: "Login", loggedIn: false, hasError: true, errors: errors});
 });
 
 module.exports = router;
