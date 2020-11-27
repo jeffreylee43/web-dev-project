@@ -15,13 +15,31 @@ router.post('/', async (req, res) => {
     let errors = [];
     const parsedAge = parseInt(age);
     const emailForCheck = email.toLowerCase();
+
+    if(!firstName || firstName === "" || firstName.trim() === "") {
+        errors.push("You did not provide your first name");
+    }
+    if(!lastName || lastName === "" || lastName.trim() === "") {
+        errors.push("You did not provide your last name");
+    }
+    if(!email || email === "" || email.trim() === "") {
+        errors.push("You did not provide your email address");
+    }
+    if(!password || password === "" || password.trim() === "") {
+        errors.push("You did not provide your password");
+    }
+    if(!gender || gender === "" || gender.trim() === "") {
+        errors.push("You did not provide your gender");
+    }
+    if(!age || age === "" || age.trim() === "" || age <= 0) {
+        errors.push("You did not provide a valid age. The age must be greater than 0.");
+    }
+    if(errors.length !== 0) {
+        return res.status(401).render('users/register', {title: "Register", loggedIn: false, hasError: true, errors: errors});
+    }
     
     try {
         const getTrader = await traders.getTraderByEmail(emailForCheck);
-        // if(getTrader) {
-        //     errors.push("The provided email address is already in use.");
-        //     return res.status(401).render('user/register', {title: "Register", hasError: true, errors: errors});
-        // }
         errors.push("The provided email address is already in use.");
         return res.status(401).render('users/register', {title: "Register", loggedIn: false, hasError: true, errors: errors});
     } catch (e) {

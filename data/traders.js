@@ -1,7 +1,7 @@
 const mongoCollections = require('../config/mongoCollections');
 const traders = mongoCollections.traders;
 const bcrypt = require('bcryptjs');
-const saltRounds = 16;
+const saltRounds = 2;
 const { ObjectId } = require('mongodb');
 
 

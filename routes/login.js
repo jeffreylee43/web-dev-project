@@ -14,13 +14,14 @@ router.get('/', async (req, res) => {
 router.post('/', async (req, res) => {
     const {email, password} = req.body;
     let errors = [];
+    const emailForCheck = email.toLowerCase();
 
     const allTraders = await traders.getAllTraders();
     for(let trader of allTraders) {
-        if(trader.email === email) {
+        if(trader.email === emailForCheck) {
             let passwordMatch = await bcrypt.compare(password, trader.hashPassword);
             if(passwordMatch) {
-                req.session.user = {_id: trader._id, firstName: trader.firstName, lastName: trader.lastName, email: trader.email, gender: trader.gender, age: trader.age, stockArray: trader.stockArray, reviewArray: trader.reviewArray};
+                req.session.user = {_id: trader._id, firstName: trader.firstName, lastName: trader.lastName, email: emailForCheck, gender: trader.gender, age: trader.age, stockArray: trader.stockArray, reviewArray: trader.reviewArray};
                 return res.redirect('/users/dashboard');
             } else {
                 errors.push('You did not provide a valid password');
