@@ -20,7 +20,10 @@
                 {{this.name}} ({{this.ticker}})
             </a>
             <p>Price: {{this.price}}</p>
-            <p>Rating: </p>
+            <p>Average Rating: 
+                {{#if this.averageRating}} {{#each this.ratingsArr}} <span class="fa fa-star checked"></span> {{/each}}</p>
+                {{else}} No Ratings Found </p>
+                {{/if}}
         </div>
 
         <div>
