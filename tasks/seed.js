@@ -13,4 +13,4 @@ const main = async () => {
     await db.serverConfig.close();
 }
 
-main().catch(console.log);
+main().catch(console.log); 
