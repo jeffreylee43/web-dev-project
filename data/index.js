@@ -1,4 +1,7 @@
+const companiesData = require('./companies');
+const tradersData = require('./traders');
+
 module.exports = {
-    companies: require('./companies'),
-    traders: require('./traders'),
+  companies: companiesData,
+  traders: tradersData
 };

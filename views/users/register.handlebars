@@ -1,3 +1,52 @@
 <div>
     <h1>Register</h1>
+    
+    <form method="POST" action="/register" id="register-form">
+        <div>
+            <label for="firstName">First Name: </label>
+            <input type="text" name="firstName" id="firstName">
+        </div>
+
+        <div>
+            <label for="lastName">Last Name: </label>
+            <input type="text" name="lastName" id="lastName">
+        </div>
+        
+        <div>
+            <label for="email">Email Address: </label>
+            <input type="email" name="email" id="email">
+        </div>
+
+        <div>
+            <label for="password">Password: </label>
+            <input type="password" name="password" id="password">
+        </div>
+
+        <div>
+            <p>Gender: </p>
+            <input type="radio" name="gender" id="male" value="M">
+            <label for="male">Male</label><br>
+            <input type="radio" name="gender" id="female" value="F">
+            <label for="female">Female</label><br>
+            <input type="radio" name="gender" id="other" value="O">
+            <label for="other">Other</label><br>
+        </div>
+
+        <div>
+            <label for="age">Age: </label>
+            <input type="number" name="age" id="age">
+        </div>
+            
+    </form>
+    <button type="submit" form="register-form">Register</button>
+
+    {{#if hasError}}
+        <ul>
+            {{#each errors}}
+            <li>
+                {{this}}
+            </li>
+            {{/each}}
+        </ul>
+    {{/if}}
 </div>
