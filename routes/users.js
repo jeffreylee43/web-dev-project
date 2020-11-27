@@ -5,9 +5,13 @@ const companies = data.companies;
 const apiKey = "bu92bcn48v6t2erin5ig";
 
 router.get('/dashboard', async (req, res) => {
-    res.render('users/dashboard', {title: "Your Dashboard"});
+    if(!req.session.user) {
+        return res.status(403).render('users/notLoggedIn', {title: "Not Logged In", loggedIn: false});
+    }
+    res.render('users/dashboard', { title: 'Your Dashboard', loggedIn: true});
 });
 
+<<<<<<< HEAD
 
 router.post('/dashboard', async (req, res) => {
     try{
@@ -27,3 +31,6 @@ router.post('/dashboard', async (req, res) => {
     }
 });
 module.exports = router;
+=======
+module.exports = router;
+>>>>>>> 0f883d6dfa29444430f2b61e855e0fa32e09f9a4

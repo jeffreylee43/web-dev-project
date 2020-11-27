@@ -12,4 +12,41 @@
     <p>Industry: {{company.finnhubIndustry}}</p>
     <p>Phone: {{company.phone}}</p>
     <p>Website: {{company.weburl}}</p>
+    <br>
+    <hr>
+    <br>
+    <h2>Reviews:</h2>
+    {{#if reviewsExist}}
+    <div id='reviews'>
+        <h3>Average User Rating
+            {{#each company.ratingsArr}}
+                <span class="fa fa-star checked"></span>
+            {{/each}}
+        </h3>
+        {{#each reviews}}
+            <p>
+                Date: {{this.date}}
+            <p> 
+            <p>
+                Review: {{this.review}}
+            </p>
+            <p>
+                User Rating: {{#each this.ratingsArr}} <span class="fa fa-star checked"></span> {{/each}}
+            </p>
+            <br>
+        {{/each}}
+    </div>
+    {{else}} <p>Reviews will be shown here. Be the first to write a review!</p>
+    {{/if}}
+    <hr>
+    <br>
+    <div>
+        <form method="POST" id="userReviews">
+        <label for="reviewVal" id="formLabel">Write Review: </label>
+        <input type="text" id="reviewVal" name="reviewVal" required><br><br>
+        <label for="ratingVal" id="formLabel">Enter Rating (1-5): </label>
+        <input type='number' id="ratingVal" name="ratingVal" min="1" max="5" required><br><br>
+        <button type="submit">Submit Review</button>
+        </form>
+    </div>
 </div>
