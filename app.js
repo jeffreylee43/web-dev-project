@@ -16,8 +16,8 @@ app.use(session({
   name: 'AuthCookie',
   secret: 'some secret string!',
   resave: false,
-  saveUninitialized: true,
-  cookie: {maxAge: 60000}
+  saveUninitialized: true
+  //cookie: {maxAge: 60000}
 }));
 
 // app.use('/', (req, res, next) => {
