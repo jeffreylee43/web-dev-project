@@ -63,7 +63,7 @@ module.exports = {
     async getAllReviews(company){
         let output = [];
         let allReviews = company.reviews;
-        for (r in allReviews){
+        for (let r in allReviews){
             const rev = await this.getReviewById(allReviews[r]);
             output.push( rev );
         }
