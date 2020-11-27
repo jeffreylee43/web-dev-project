@@ -1,5 +1,9 @@
+const companiesData = require('./companies');
+const tradersData = require('./traders');
+const reviewsData = require('./reviews');
+
 module.exports = {
-    companies: require('./companies'),
-    traders: require('./traders'),
-    reviews: require('./reviews')
+  companies: companiesData,
+  traders: tradersData,
+  reviews: reviewsData
 };

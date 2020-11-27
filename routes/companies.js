@@ -6,6 +6,9 @@ const companies = data.companies;
 const reviews = data.reviews;
 
 router.get('/:ticker', async (req, res) => {
+    if(!req.session.user) {
+        return res.status(403).render('users/notLoggedIn', {title: "Not Logged In", loggedIn: false});
+    }
     try {
         const company = await companies.updateCompany(req.params.ticker);
         const allReviews = await reviews.getAllReviews(company);
@@ -15,7 +18,8 @@ router.get('/:ticker', async (req, res) => {
             title: 'Company Profile',
             company: company,
             reviews: allReviews,
-            reviewsExist: reviewsExist
+            reviewsExist: reviewsExist,
+            loggedIn: true
         });
     } catch (e) {
         res.status(404).json({ error: e });
