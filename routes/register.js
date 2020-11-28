@@ -5,7 +5,7 @@ const traders = data.traders;
 
 router.get('/', async (req, res) => {
     if(req.session.user) {
-        return res.redirect("users/dashboard");
+        return res.redirect("/users/dashboard");
     }
     res.render('users/register', {title: "Register", loggedIn: false, hasErrors: false, errors: []});
 });
@@ -45,7 +45,7 @@ router.post('/', async (req, res) => {
     } catch (e) {
         const newTrader = await traders.addNewTrader(firstName, lastName, emailForCheck, gender, parsedAge, password);
         req.session.user = {_id: newTrader._id, firstName: newTrader.firstName, lastName: newTrader.lastName, email: emailForCheck, gender: newTrader.gender, age: newTrader.age, stockArray: newTrader.stockArray, reviewArray: newTrader.reviewArray};
-        res.redirect('users/dashboard');
+        res.redirect('/users/dashboard');
     }
     
 });
