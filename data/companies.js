@@ -8,6 +8,10 @@ const { ObjectID } = require('mongodb');
 const apiKey = "bu92bcn48v6t2erin5ig";
 
 module.exports = {
+    async getAPICompany(ticker,apiKey){
+        const {data} = await axios.get(`https://finnhub.io/api/v1/stock/profile2?symbol=${ticker}&token=${apiKey}`);
+        return data
+    },
     async addCompany(tickerInput) {
         if(!tickerInput) throw 'The ticker must be provided.';
         if(typeof tickerInput !== "string" || tickerInput === "" || tickerInput.trim() === "") throw 'The ticker must be a string.';
