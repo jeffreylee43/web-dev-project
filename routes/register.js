@@ -44,7 +44,8 @@ router.post('/', async (req, res) => {
         return res.status(401).render('users/register', {title: "Register", loggedIn: false, hasError: true, errors: errors});
     } catch (e) {
         const newTrader = await traders.addNewTrader(firstName, lastName, emailForCheck, gender, parsedAge, password);
-        res.render('users/dashboard', {title: "Your Dashboard", loggedIn: true});
+        req.session.user = {_id: newTrader._id, firstName: newTrader.firstName, lastName: newTrader.lastName, email: emailForCheck, gender: newTrader.gender, age: newTrader.age, stockArray: newTrader.stockArray, reviewArray: newTrader.reviewArray};
+        res.redirect('users/dashboard');
     }
     
 });

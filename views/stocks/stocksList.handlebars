@@ -19,7 +19,11 @@
             <a href="../companies/{{this.ticker}}">
                 {{this.name}} ({{this.ticker}})
             </a>
-            <p>Price: {{this.price}}</p>
+            {{#if this.increased}}
+            <p>Price: {{this.price}} <span class="greenStock">+{{this.change}} ({{this.percentIncrease}}%)</span></p>
+            {{else}}
+            <p>Price: {{this.price}} <span class="redStock">{{this.change}} ({{this.percentIncrease}}%)</span></p>
+            {{/if}}
             <p>Average Rating: 
                 {{#if this.averageRating}} {{#each this.ratingsArr}} <span class="fa fa-star checked"></span> {{/each}}</p>
                 {{else}} No Ratings Found </p>
