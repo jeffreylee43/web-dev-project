@@ -1,5 +1,6 @@
 const mongoCollections = require('../config/mongoCollections');
 const stocks = mongoCollections.stocks;
+const traders = mongoCollections.traders;
 const axios = require('axios');
 const reviews = require('./reviews');
 const { ObjectID } = require('mongodb');
@@ -21,7 +22,21 @@ module.exports = {
         const quoteData = await axios.get(`https://finnhub.io/api/v1/quote?symbol=${tickerInput}&token=${apiKey}`);
         const {country, currency, exchange, name, ticker, ipo, marketCapitalization, shareOutstanding, logo, phone, weburl, finnhubIndustry} = companyData.data;
         const {o, h, l, c, pc} = quoteData.data;
+        let increased = null;
+        let percentIncrease = null;
+        let change = parseFloat((c-pc).toFixed(2));
+        if(c > pc) {
+            increased = true;
+            percentIncrease = parseFloat((((c-pc)/pc)*100).toFixed(2));
+        }
+        else {
+            increased = false;
+            percentIncrease = parseFloat((((pc-c)/pc)*100).toFixed(2))
+        }
         let newCompany = {
+            increased: increased,
+            change: change,
+            percentIncrease: percentIncrease,
             price: c,
             country: country,
             currency: currency,
@@ -81,14 +96,14 @@ module.exports = {
         const gotCompany = await this.getCompany(ticker);
         if (!gotCompany) throw 'Company does not exist within database.';
         
-        var objectId = new ObjectID(gotCompany._id);
+        let objectId = new ObjectID(gotCompany._id);
         const stocksCollection = await stocks();
         const updatedStocksData = {};
         const averageRating = await reviews.getAverageRating(gotCompany);
         
-        const companyData = await axios.get(`https://finnhub.io/api/v1/stock/profile2?symbol=${ticker}&token=${apiKey}`);
+        // const companyData = await axios.get(`https://finnhub.io/api/v1/stock/profile2?symbol=${ticker}&token=${apiKey}`);
         const quoteData = await axios.get(`https://finnhub.io/api/v1/quote?symbol=${ticker}&token=${apiKey}`);
-        const {country, currency, exchange, name, ticker1, ipo, marketCapitalization, shareOutstanding, logo, phone, weburl, finnhubIndustry} = companyData.data;
+        // const {country, currency, exchange, name, ticker1, ipo, marketCapitalization, shareOutstanding, logo, phone, weburl, finnhubIndustry} = companyData.data;
         const {o, h, l, c, pc} = quoteData.data;
         
         let temprating = Math.round(averageRating);
@@ -97,6 +112,20 @@ module.exports = {
             ratingsArr.push("1");
             temprating--;
         }
+        let increased = null;
+        let percentIncrease = null;
+        let change = parseFloat((c-pc).toFixed(2));
+        if(c > pc) {
+            increased = true;
+            percentIncrease = parseFloat((((c-pc)/pc)*100).toFixed(2));
+        }
+        else {
+            increased = false;
+            percentIncrease = parseFloat((((pc-c)/pc)*100).toFixed(2))
+        }
+        updatedStocksData.increased = increased;
+        updatedStocksData.change = change;
+        updatedStocksData.percentIncrease = percentIncrease;
         updatedStocksData.price = c;
         updatedStocksData.country = gotCompany.country;
         updatedStocksData.currency = gotCompany.currency;
@@ -119,6 +148,35 @@ module.exports = {
             { $set: updatedStocksData }
         );
         return await this.getCompany(ticker);
+    },
+
+    async addStockDashboard(traderID, companyID){
+        const tradersCollection = await traders();
+        var objectId = new ObjectID(traderID);
+        const trader1 = await tradersCollection.findOne({ _id: objectId });
+        let updatedTraderData = {};
+        let arr = trader1.stockArray;
+        let isNewStock = true;
+        for (let st of arr){
+            if (st == companyID){
+                isNewStock = false;
+            }
+        }
+        if (isNewStock){
+            arr.push(companyID);
+            updatedTraderData.stockArray = arr;
+
+            const updatedInfo = await tradersCollection.updateOne(
+                { _id: objectId },
+                { $set: updatedTraderData }
+            );
+
+            if (updatedInfo.modifiedCount === 0) {
+                throw 'could not update company reviews successfully';
+            }
+        }
+
+        return arr;
     }
  
 };

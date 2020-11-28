@@ -2,6 +2,7 @@ const { ObjectID } = require('mongodb');
 const mongoCollections = require('../config/mongoCollections');
 const reviews = mongoCollections.reviews;
 const stocks = mongoCollections.stocks;
+const traders = mongoCollections.traders;
 var path = require('path');
 var companies = require( path.resolve( __dirname, "./companies.js" ) );
 
@@ -21,7 +22,7 @@ module.exports = {
         review._id = `${review._id}`;
         return review;
     },
-    async addReview(reviewpost, rating, companyID) {
+    async addReview(reviewpost, rating, companyID, traderID) {
         var date = new Date();
         let temprating = rating;
         let ratingsArr = [];
@@ -31,6 +32,7 @@ module.exports = {
         }
         let newReview = {
             companyID: companyID,
+            traderID: traderID,
             date: date,
             ratingsArr: ratingsArr,
             rating: Number(rating),
@@ -57,6 +59,22 @@ module.exports = {
         if (updatedInfo.modifiedCount === 0) {
             throw 'could not update company reviews successfully';
         }
+
+        //Add review id to trader collection
+        const tradersCollection = await traders();
+        var objectId2 = new ObjectID(review.traderID);
+        const trader1 = await tradersCollection.findOne({ _id: objectId2 });
+        let updatedTraderData = {};
+        let arr2 = trader1.reviewArray;
+        arr2.push(newId);
+        updatedTraderData.reviewArray = arr2;
+        const updatedInfo2 = await tradersCollection.updateOne(
+            { _id: objectId2 },
+            { $set: updatedTraderData }
+        );
+        if (updatedInfo2.modifiedCount === 0) {
+            throw 'could not update company reviews successfully';
+        }
         return review;
     },
 
@@ -76,7 +94,7 @@ module.exports = {
     async getAverageRating(company){
         const allReviews = await this.getAllReviews(company);
         var avgRating = 0;
-        for (r in allReviews){
+        for (let r in allReviews){
             avgRating += allReviews[r].rating;
         }
         return avgRating/allReviews.length;
