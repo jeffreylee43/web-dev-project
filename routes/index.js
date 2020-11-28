@@ -9,7 +9,7 @@ const logoutRoutes = require('./logout');
 const constructorMethod = (app) => {
     app.get('/', (req, res) => {
         if(req.session.user) {
-            return res.redirect("users/dashboard");
+            return res.redirect("/users/dashboard");
         }
         res.render('landing/landingpage', { title: 'Home', loggedIn: false});
     });

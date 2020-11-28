@@ -16,3 +16,11 @@
 .companyBox:hover {
     background-color: lightblue;
 }
+
+.greenStock {
+    color: #34a853;
+}
+
+.redStock {
+    color: #d93025;
+}

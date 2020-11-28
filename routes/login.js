@@ -6,7 +6,7 @@ const bcrypt = require('bcryptjs');
 
 router.get('/', async (req, res) => {
     if(req.session.user) {
-        return res.redirect("users/dashboard");
+        return res.redirect("/users/dashboard");
     }
     res.render('users/login', { title: "Login", loggedIn: false, hasError: false, errors: []});
 });
