@@ -25,7 +25,6 @@ router.post('/dashboard', async (req, res) => {
     //Checking if search term is a valid ticker or not
     if(Object.keys(company).length === 0 && company.constructor === Object){
         res.status(404).render("../views/users/error",{title: "Error Found", searchTerm: search})
-        console.log("no company found")
         return;
     } else{
         let company2 = await companies.addCompany(search);
