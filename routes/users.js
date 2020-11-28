@@ -11,8 +11,9 @@ router.get('/dashboard', async (req, res) => {
     res.render('users/dashboard', { title: 'Your Dashboard', loggedIn: true});
 });
 
-<<<<<<< HEAD
+//add to companies in the database
 
+//make it go to companies/AAPL
 router.post('/dashboard', async (req, res) => {
     try{
     const search = req.body.searchTicker;
@@ -21,16 +22,17 @@ router.post('/dashboard', async (req, res) => {
         return;
     }
     const company = await companies.getAPICompany(search,apiKey)
-    if(!company){
+    //Checking if search term is a valid ticker or not
+    if(Object.keys(company).length === 0 && company.constructor === Object){
         res.status(404).render("../views/users/error",{title: "Error Found", searchTerm: search})
-    } 
-    console.log(company)
-    res.render('companies/companyProfile', { title: "Company Profile", company: company});
+        console.log("no company found")
+        return;
+    } else{
+        let company2 = await companies.addCompany(search);
+    }
+    res.redirect(`/companies/${search}`)
     }catch (e){
-        res.status(404)
+        res.status(404).render("../views/users/error",{title: "Error Found", searchTerm: search})
     }
 });
 module.exports = router;
-=======
-module.exports = router;
->>>>>>> 0f883d6dfa29444430f2b61e855e0fa32e09f9a4
