@@ -21,7 +21,9 @@ router.post('/', async (req, res) => {
         if(trader.email === emailForCheck) {
             let passwordMatch = await bcrypt.compare(password, trader.hashPassword);
             if(passwordMatch) {
-                req.session.user = {_id: trader._id, firstName: trader.firstName, lastName: trader.lastName, email: emailForCheck, gender: trader.gender, age: trader.age, stockArray: trader.stockArray, reviewArray: trader.reviewArray};
+                let actionItem = "" + new Date() + ": Successfully logged in.";
+                const updateHistory = await traders.addTraderHistory(trader._id, actionItem);
+                req.session.user = {_id: trader._id, firstName: trader.firstName, lastName: trader.lastName, email: emailForCheck, gender: trader.gender, age: trader.age, stockArray: trader.stockArray, reviewArray: trader.reviewArray, historyArray: trader.historyArray};
                 return res.redirect('/users/dashboard');
             } else {
                 errors.push('You did not provide a valid password');

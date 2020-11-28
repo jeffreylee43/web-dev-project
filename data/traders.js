@@ -26,6 +26,7 @@ module.exports = {
             age: age,
             stockArray: [],
             reviewArray: [],
+            historyArray: [],
             hashPassword: hash
         };
 
@@ -81,5 +82,23 @@ module.exports = {
         foundTrader._id = stringId;
 
         return foundTrader;
+    },
+
+    async addTraderHistory(id, actionItem){
+        const tradersCollection = await traders();
+        var objectId = new ObjectId(id);
+        const trader1 = await tradersCollection.findOne({ _id: objectId });
+        let updatedTradersData = {};
+        let arr = trader1.historyArray;
+        arr.push(actionItem);
+        updatedTradersData.historyArray = arr;
+        const updatedInfo = await tradersCollection.updateOne(
+            { _id: objectId },
+            { $set: updatedTradersData }
+        );
+        if (updatedInfo.modifiedCount === 0) {
+            throw 'could not update trader history successfully';
+        }
+        return arr;
     }
 };

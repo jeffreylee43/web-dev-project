@@ -3,6 +3,7 @@ const stocksRoutes = require('./stocks');
 const companiesRoutes = require('./companies');
 const loginRoutes = require('./login');
 const registerRoutes = require('./register');
+const historyRoutes = require('./history');
 const logoutRoutes = require('./logout');
 
 const constructorMethod = (app) => {
@@ -18,6 +19,7 @@ const constructorMethod = (app) => {
     app.use('/users', usersRoutes);
     app.use('/stocks', stocksRoutes);
     app.use('/companies', companiesRoutes);
+    app.use('/history', historyRoutes);
     app.use('/logout', logoutRoutes);
 
     app.use('*', (req, res) => {
