@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const data = require('../data');
 const { getAverageRating } = require('../data/reviews');
+const traders = require('../data/traders');
 const companies = data.companies;
 const reviews = data.reviews;
 
@@ -13,6 +14,8 @@ router.get('/:ticker', async (req, res) => {
         const company = await companies.updateCompany(req.params.ticker);
         const allReviews = await reviews.getAllReviews(company);
         const avgRating = await reviews.getAverageRating(company);
+        let actionItem = "" + new Date() + ": Viewed " + company.name + "'s company profile.";
+        const updateHistory = await traders.addTraderHistory(req.session.user._id, actionItem);
         var reviewsExist = (Math.round(avgRating) >= 1) ? true : false;
         res.render('companies/companyProfile', {
             title: 'Company Profile',
@@ -30,7 +33,9 @@ router.post('/:ticker', async (req, res) => {
     try {
         let bodyData = req.body;
         const company = await companies.getCompany(req.params.ticker);
-        const review = await reviews.addReview(bodyData.reviewVal, bodyData.ratingVal, company._id);
+        const review = await reviews.addReview(bodyData.reviewVal, bodyData.ratingVal, company._id, req.session.user._id);
+        let actionItem = "" + review.date + ": Added review to " + company.name + " and gave it a " + review.rating + " star rating.";
+        const updateHistory = await traders.addTraderHistory(req.session.user._id, actionItem);
         res.redirect('/companies/' + req.params.ticker);
     } catch (e) {
         res.status(404).json({ message: e });
