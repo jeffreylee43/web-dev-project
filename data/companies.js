@@ -1,5 +1,6 @@
 const mongoCollections = require('../config/mongoCollections');
 const stocks = mongoCollections.stocks;
+const traders = mongoCollections.traders;
 const axios = require('axios');
 const reviews = require('./reviews');
 const { ObjectID } = require('mongodb');
@@ -115,6 +116,35 @@ module.exports = {
             { $set: updatedStocksData }
         );
         return await this.getCompany(ticker);
+    },
+
+    async addStockDashboard(traderID, companyID){
+        const tradersCollection = await traders();
+        var objectId = new ObjectID(traderID);
+        const trader1 = await tradersCollection.findOne({ _id: objectId });
+        let updatedTraderData = {};
+        let arr = trader1.stockArray;
+        let isNewStock = true;
+        for (let st of arr){
+            if (st == companyID){
+                isNewStock = false;
+            }
+        }
+        if (isNewStock){
+            arr.push(companyID);
+            updatedTraderData.stockArray = arr;
+
+            const updatedInfo = await tradersCollection.updateOne(
+                { _id: objectId },
+                { $set: updatedTraderData }
+            );
+
+            if (updatedInfo.modifiedCount === 0) {
+                throw 'could not update company reviews successfully';
+            }
+        }
+
+        return arr;
     }
  
 };
