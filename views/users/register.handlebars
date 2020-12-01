@@ -36,10 +36,10 @@
             <label for="age">Age: </label>
             <input type="number" name="age" id="age">
         </div>
-            
+        <button type="submit">Register</button> 
     </form>
-    <button type="submit" form="register-form">Register</button>
 
+    <div class="error-div">
     {{#if hasError}}
         <ul>
             {{#each errors}}
@@ -49,4 +49,5 @@
             {{/each}}
         </ul>
     {{/if}}
+    </div>
 </div>
