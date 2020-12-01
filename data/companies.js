@@ -183,7 +183,7 @@ module.exports = {
 
     async addStockDashboard(traderID, companyID) {
         const tradersCollection = await traders();
-        var objectId = new ObjectID(traderID);
+        let objectId = new ObjectID(traderID);
         const trader1 = await tradersCollection.findOne({ _id: objectId });
         let updatedTraderData = {};
         let arr = trader1.stockArray;

@@ -57,7 +57,7 @@ router.post('/stocksList', async (req, res) => {
 
         const stocksCollection = await stocks();
 
-        var stocksList;
+        let stocksList;
         switch (sort) {
             case 'name':
                 stocksList = await stocksCollection
