@@ -12,9 +12,13 @@
     <p>Industry: {{company.finnhubIndustry}}</p>
     <p>Phone: {{company.phone}}</p>
     <p>Website: {{company.weburl}}</p>
+    {{#if tickerExists}}
+    <button type="submit" name="addedButton" onclick="location.href='/users/dashboard';">Already Added</button>
+    {{else}}
     <form method="POST" id="addButton">
     <button type="submit" name="addButton">Add to Dashboard</button>
     </form>
+    {{/if}}
     <br>
     <hr>
     <br>

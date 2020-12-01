@@ -13,4 +13,35 @@
         </div>
         {{/each}}
     </div> --}}
+    {{#if sugRequest}}
+      <button type="submit" name="addedButton" onclick="location.href='/users/dashboard';">Hide Suggestions</button>
+    {{else}}
+    <div>
+      <form method="POST" id="sugButton">
+        <input id="showSug" name="showSug" type="hidden" value="showSug">
+      <button type="submit" name="sugShowButton">Show Suggestions</button>
+    </div>
+    {{/if}}
+        <div class="listLayout">
+            {{#each allCompanies}}
+            <div class="companyBox">
+                <a href="../companies/{{this.ticker}}">
+                    {{this.name}} ({{this.ticker}})
+                </a>
+                {{#if this.increased}}
+                <p>Price: {{this.price}} <span class="greenStock">+{{this.change}} ({{this.percentIncrease}}%)</span></p>
+                {{else}}
+                <p>Price: {{this.price}} <span class="redStock">{{this.change}} ({{this.percentIncrease}}%)</span></p>
+                {{/if}}
+                <p>Average Rating: 
+                    {{#if this.averageRating}} {{#each this.ratingsArr}} <span class="fa fa-star checked"></span> {{/each}}</p>
+                    {{else}} No Ratings Found </p>
+                    {{/if}}
+            </div>
+
+            <div>
+                <button type="submit">Add</button>
+            </div>
+            {{/each}}
+        </div>
 </div>

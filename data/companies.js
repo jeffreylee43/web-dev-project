@@ -92,6 +92,24 @@ module.exports = {
         return foundCompany;
     },
 
+    async getCompanyById(id) {
+        console.log("HELLO");
+        if (!id) throw 'Must provide an id';
+        if (typeof id != 'string' || !id.replace(/\s/g,'').length) throw 'Type of ID must be a non-empty string';
+        try {
+            var objectId = new ObjectID(id);
+        } catch (e){
+            throw 'Error: Argument ID passed in must be a single String of 12 bytes or a string of 24 hex characters';
+        }
+        if (!objectId) throw 'Id provided is not a valid Object ID.';
+        const stocksCollection = await stocks();
+        const foundCompany = await stocksCollection.findOne({_id: objectId});
+        if(foundCompany === null) throw 'There are no companies found with the provided id.';
+        const stringId = foundCompany._id.toString();
+        foundCompany._id = stringId;
+        return foundCompany;
+    },
+
     async updateCompany(ticker) {
         const gotCompany = await this.getCompany(ticker);
         if (!gotCompany) throw 'Company does not exist within database.';

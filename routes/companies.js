@@ -18,12 +18,14 @@ router.get('/:ticker', async (req, res) => {
         let actionItem = "" + new Date() + ": Viewed " + company.name + "'s company profile.";
         const updateHistory = await traders.addTraderHistory(req.session.user._id, actionItem);
         var reviewsExist = (Math.round(avgRating) >= 1) ? true : false;
+        var tickerExists = await traders.tickerExists(req.session.user._id, company._id);
         res.render('companies/companyProfile', {
             title: 'Company Profile',
             company: company,
             reviews: allReviews,
             reviewsExist: reviewsExist,
-            loggedIn: true
+            loggedIn: true,
+            tickerExists: tickerExists
         });
     } catch (e) {
         res.status(404).json({ error: e });
