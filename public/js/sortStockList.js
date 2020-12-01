@@ -1,26 +1,27 @@
 $(function () {
-    function byName(list) {}
-
-    function byPrice(list) {}
-
-    function byRate(list) {}
-
     $('#sortForm').submit( (event) => {
         event.preventDefault();
-
-        const allCompanies = await companies.getAllCompanies();
 
         let sort = $('#sort').val();
 
         switch(sort) {
             case 'name': 
-                allCompanies = byName(allCompanies);
+                allCompanies = await movieCollection
+                .find({})
+                .sort({ name: 1 })
+                .toArray();
                 break;
             case 'price':
-                allCompanies = byPrice(allCompanies);
+                allCompanies = await movieCollection
+                .find({})
+                .sort({ price: 1 })
+                .toArray();
                 break;
             case "rate":
-                allCompanies = byRate(allCompanies);
+                allCompanies = await movieCollection
+                .find({})
+                .sort({ averageRating: 1 })
+                .toArray();
                 break;
         }
 
