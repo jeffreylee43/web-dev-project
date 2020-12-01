@@ -1,4 +1,5 @@
 .landingpage-div {
+    padding-top: 30px;
     text-align: center;
 }
 
@@ -6,6 +7,17 @@ main {
     padding: 10px;
 }
 
-.navbar-nav {
-    float: right;
+.landing-buttons {
+    padding-top: 30px;
+}
+
+button {
+    border-radius: 100px;
+    padding: 2px 16px;
+}
+
+.error-div {
+    display: inline-block;
+    background-color: lightcoral;
+    padding-right: 20px;
 }
