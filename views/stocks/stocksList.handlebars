@@ -1,7 +1,7 @@
-<div>
+<div id="stockList">
     <h1>List of Stocks</h1>
 
-    <form action="/">
+    <form id="sortForm" method="POST">
         <div class="stockMod">
             <label for="sort">Sort By</label>
             <select id="sort" name="sort">
@@ -24,10 +24,11 @@
             {{else}}
             <p>Price: {{this.price}} <span class="redStock">{{this.change}} ({{this.percentIncrease}}%)</span></p>
             {{/if}}
-            <p>Average Rating: 
-                {{#if this.averageRating}} {{#each this.ratingsArr}} <span class="fa fa-star checked"></span> {{/each}}</p>
-                {{else}} No Ratings Found </p>
-                {{/if}}
+            <p>Average Rating:
+                {{#if this.averageRating}} {{#each this.ratingsArr}} <span class="fa fa-star checked"></span> {{/each}}
+            </p>
+            {{else}} No Ratings Found </p>
+            {{/if}}
         </div>
 
         <div>
@@ -37,3 +38,6 @@
     </div>
 
 </div>
+
+{{!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="/public/js/sortStockList.js"></script> --}}
