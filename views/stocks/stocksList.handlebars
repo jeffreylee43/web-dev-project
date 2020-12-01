@@ -13,12 +13,16 @@
         </div>
     </form>
 
+
     <div class="listLayout">
         {{#each allCompanies}}
         <div class="companyBox">
             <a href="../companies/{{this.ticker}}">
                 {{this.name}} ({{this.ticker}})
             </a>
+            <span>
+                <button type="submit" class="add-button">Add</button>
+            </span>
             {{#if this.increased}}
             <p>Price: {{this.price}} <span class="greenStock">+{{this.change}} ({{this.percentIncrease}}%)</span></p>
             {{else}}
@@ -28,10 +32,6 @@
                 {{#if this.averageRating}} {{#each this.ratingsArr}} <span class="fa fa-star checked"></span> {{/each}}</p>
                 {{else}} No Ratings Found </p>
                 {{/if}}
-        </div>
-
-        <div>
-            <button type="submit">Add</button>
         </div>
         {{/each}}
     </div>
