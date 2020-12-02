@@ -20,7 +20,7 @@ router.get('/dashboard', async (req, res) => {
 router.post('/dashboard', async (req, res) => {
     try{
         if (req.body.searchTicker){
-            const search = req.body.searchTicker;
+            const search = (req.body.searchTicker).toUpperCase();
             if (!req.body.searchTicker) {
                 res.status(404).render("../views/users/error",{title: "Error Found", searchTerm: search})
                 return;
@@ -30,10 +30,15 @@ router.post('/dashboard', async (req, res) => {
             if(Object.keys(company).length === 0 && company.constructor === Object){
                 res.status(404).render("../views/users/error",{title: "Error Found", searchTerm: search})
                 return;
-            } else{
-                let company2 = await companies.addCompany(search);
+            } else {
+                const companyExists = await companies.getCompany(company.ticker);
+                if (!companyExists){
+                    let company2 = await companies.addCompany(search);
+                    res.redirect(`/companies/${search}`);
+                } else {
+                    res.redirect(`/companies/${search}`);
+                }
             }
-            res.redirect(`/companies/${search}`);
         } else if (req.body.showSug) {
             const allSuggestions = await traders.getSuggestions(req.session.user._id);
             res.render('users/dashboard', {

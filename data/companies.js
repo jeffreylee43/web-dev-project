@@ -12,6 +12,10 @@ module.exports = {
         const {data} = await axios.get(`https://finnhub.io/api/v1/stock/profile2?symbol=${ticker}&token=${apiKey}`);
         return data
     },
+    async getAPIAllCompanies(apiKey){
+        const {data} = await axios.get(`https://finnhub.io/api/v1/stock/symbol?exchange=US&token=${apiKey}`);
+        return data
+    },
     async addCompany(tickerInput) {
         if(!tickerInput) throw 'The ticker must be provided.';
         if(typeof tickerInput !== "string" || tickerInput === "" || tickerInput.trim() === "") throw 'The ticker must be a string.';
@@ -93,7 +97,6 @@ module.exports = {
     },
 
     async getCompanyById(id) {
-        console.log("HELLO");
         if (!id) throw 'Must provide an id';
         if (typeof id != 'string' || !id.replace(/\s/g,'').length) throw 'Type of ID must be a non-empty string';
         try {
