@@ -19,22 +19,40 @@ router.get('/dashboard', async (req, res) => {
 //make it go to companies/AAPL
 router.post('/dashboard', async (req, res) => {
     try{
-    const search = req.body.searchTicker;
-    if (!req.body.searchTicker) {
-        res.status(404).render("../views/users/error",{title: "Error Found", searchTerm: search})
-        return;
-    }
-    const company = await companies.getAPICompany(search,apiKey)
-    //Checking if search term is a valid ticker or not
-    if(Object.keys(company).length === 0 && company.constructor === Object){
-        res.status(404).render("../views/users/error",{title: "Error Found", searchTerm: search})
-        return;
-    } else{
-        let company2 = await companies.addCompany(search);
-    }
-    res.redirect(`/companies/${search}`)
+        if (req.body.searchTicker){
+            const search = (req.body.searchTicker).toUpperCase();
+            if (!req.body.searchTicker) {
+                res.status(404).render("../views/users/error",{title: "Error Found", searchTerm: search})
+                return;
+            }
+            const company = await companies.getAPICompany(search,apiKey)
+            //Checking if search term is a valid ticker or not
+            if(Object.keys(company).length === 0 && company.constructor === Object){
+                res.status(404).render("../views/users/error",{title: "Error Found", searchTerm: search})
+                return;
+            } else {
+                const companyExists = await companies.getCompany(company.ticker);
+                if (!companyExists){
+                    let company2 = await companies.addCompany(search);
+                    res.redirect(`/companies/${search}`);
+                } else {
+                    res.redirect(`/companies/${search}`);
+                }
+            }
+        } else if (req.body.showSug) {
+            const allSuggestions = await traders.getSuggestions(req.session.user._id);
+            res.render('users/dashboard', {
+                title: 'List of Stocks',
+                loggedIn: true,
+                allCompanies: allSuggestions,
+                sugRequest: true
+            });
+        } else {
+            res.redirect('/users/dashboard');
+        }
+    
     }catch (e){
-        res.status(404).render("../views/users/error",{title: "Error Found", searchTerm: search})
+        res.status(404).render("../views/users/error",{title: "Error Found", searchTerm: "search"})
     }
 });
 module.exports = router;

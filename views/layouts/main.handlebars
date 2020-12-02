@@ -9,6 +9,7 @@
         integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
     <link rel="stylesheet" href="/public/css/landingpage.css">
     <link rel="stylesheet" href="/public/css/companies.css">
+    <link rel="stylesheet" href="/public/css/companyProfile.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 
@@ -36,6 +37,9 @@
                         <a class="nav-link" href="/history">View History</a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link" href="/news">News Feed</a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link" href="/logout">Logout</a>
                     </li>
                     {{else}}
@@ -60,8 +64,9 @@
                 <li><a href="/users/dashboard">Your Dashboard</a></li>
                 <li><a href="/stocks/stocksList">Stocks List</a></li>
                 {{#if loggedIn}}
-                <li><a href="/logout">Logout</a></li>
                 <li><a href="/history">View History</a></li>
+                <li><a href="/news">NewsFeed</a></li>
+                <li><a href="/logout">Logout</a></li>
                 {{else}}
                 <li><a href="/login">Login</a></li>
                 <li><a href="/register">Register</a></li>

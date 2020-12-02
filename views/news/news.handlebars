@@ -1,0 +1,32 @@
+<div>
+    <h1>{{title}}</h1>
+    <br>
+    <hr>
+    <br>
+    <label>
+      Search for Company News:
+      <form method="POST" id="tickerInput">
+        <label for="tickerInput" id="tickerInputLabel">Enter Company: </label>
+        <input type="text" id="tickerInput" name="tickerInput" minlength="2" placeholder="Tesla" class="full-width-input"><br><br>
+        <button type="submit">Submit</button>
+        </form>
+    <br>
+    <br>
+    <br>
+    <br>
+    <div>
+        {{#each topNews}}
+            <img src="{{this.urlToImage}}" alt="{{this.source.name}}" width="300" height="200">
+            <p>Title: {{this.title}}</p>
+            <p>Description: {{this.description}}</p>
+            <p>Website: <a href="{{this.url}}">Link</a></p>
+            <p>Date: {{this.publishedAt}}</p>
+            <br>
+            <br>
+            <hr>
+            <br>
+            <br>
+        {{/each}}
+    </div>
+
+</div>
