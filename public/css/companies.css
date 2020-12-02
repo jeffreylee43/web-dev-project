@@ -33,6 +33,14 @@
     background-color: lightcyan;
 }
 
+.remove-button {
+    float: right;
+}
+
+.remove-button:hover {
+    background-color: lightcyan;
+}
+
 .company-info {
     padding-left: 10px;
 }
