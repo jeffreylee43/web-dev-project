@@ -11,23 +11,15 @@
         <button type="submit">Submit</button>
         </form>
     <br>
-    <br>
-    <br>
-    <br>
-    <div>
+    
+    <div class="top-news-div">
         {{#each topNews}}
-            <div>
-                <img src="{{this.urlToImage}}" alt="{{this.source.name}}" class="news-img">
-                <p>Title: {{this.title}}</p>
-                <p>Description: {{this.description}}</p>
-                <p>Website: <a href="{{this.url}}" target="_blank">Link</a></p>
-                <p>Date: {{this.publishedAt}}</p>
+            <div class="news-div">
+                <img src="{{this.urlToImage}}" alt="{{this.source.name}}" class="news-img"><br>
+                <a href="{{this.url}}" target="_blank" class="news-title">{{this.title}}</a>
+                <p class="news-desc">{{this.description}}</p>
+                <p class="news-date">Date Published: {{this.publishedAt}}</p>
             </div>
-            <br>
-            <br>
-            <hr>
-            <br>
-            <br>
         {{/each}}
     </div>
 
