@@ -46,11 +46,16 @@ router.post('/dashboard', async (req, res) => {
             }
         } else if (req.body.showSug) {
             const allSuggestions = await traders.getSuggestions(req.session.user._id);
+            let noSuggestions = false;
+            if(allSuggestions.length === 0) {
+                noSuggestions = true;
+            }
             res.render('users/dashboard', {
                 title: 'List of Stocks',
                 loggedIn: true,
                 allCompanies: allSuggestions,
-                sugRequest: true
+                sugRequest: true,
+                noSuggestions: noSuggestions
             });
         } else {
             res.redirect('/users/dashboard');
