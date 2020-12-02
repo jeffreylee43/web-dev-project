@@ -29,9 +29,15 @@
       <button type="submit" name="sugShowButton">Show Suggestions</button>
     </div>
     {{/if}}
-        <div class="listLayout">
+    
+    {{#if noSuggestions}}
+        <div>
+            <p>There are currently no suggestions to be made.</p>
+        </div>
+    {{else}}
+        <div class="suggestionsLayout">
             {{#each allCompanies}}
-            <div class="companyBox">
+            <div class="companyBoxSuggestion">
                 <a href="../companies/{{this.ticker}}">
                     {{this.name}} ({{this.ticker}})
                 </a>
@@ -44,11 +50,10 @@
                     {{#if this.averageRating}} {{#each this.ratingsArr}} <span class="fa fa-star checked"></span> {{/each}}</p>
                     {{else}} No Ratings Found </p>
                     {{/if}}
-            </div>
-
-            <div>
-                <button type="submit">Add</button>
+                
+                <button type="submit" class="add-button">Add</button>
             </div>
             {{/each}}
         </div>
+    {{/if}}
 </div>

@@ -16,11 +16,13 @@
     <br>
     <div>
         {{#each topNews}}
-            <img src="{{this.urlToImage}}" alt="{{this.source.name}}" width="300" height="200">
-            <p>Title: {{this.title}}</p>
-            <p>Description: {{this.description}}</p>
-            <p>Website: <a href="{{this.url}}">Link</a></p>
-            <p>Date: {{this.publishedAt}}</p>
+            <div>
+                <img src="{{this.urlToImage}}" alt="{{this.source.name}}" class="news-img">
+                <p>Title: {{this.title}}</p>
+                <p>Description: {{this.description}}</p>
+                <p>Website: <a href="{{this.url}}" target="_blank">Link</a></p>
+                <p>Date: {{this.publishedAt}}</p>
+            </div>
             <br>
             <br>
             <hr>
