@@ -16,6 +16,28 @@
     <br>
     <br>
     <br>
+    <div class="listLayout">
+        {{#each traderCompanies}}
+        <div class="companyBox">
+            <a href="../companies/{{this.ticker}}">
+                {{this.name}} ({{this.ticker}})
+            </a>
+            <span>
+                <button type="submit" class="add-button">Add</button>
+            </span>
+            {{#if this.increased}}
+            <p>Price: {{this.price}} <span class="greenStock">+{{this.change}} ({{this.percentIncrease}}%)</span></p>
+            {{else}}
+            <p>Price: {{this.price}} <span class="redStock">{{this.change}} ({{this.percentIncrease}}%)</span></p>
+            {{/if}}
+            <p>Average Rating:
+                {{#if this.averageRating}} {{#each this.ratingsArr}} <span class="fa fa-star checked"></span> {{/each}}
+            </p>
+            {{else}} No Ratings Found </p>
+            {{/if}}
+        </div>
+        {{/each}}
+    </div>
     <br>
     <br>
     {{#if sugRequest}}

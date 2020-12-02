@@ -157,6 +157,20 @@ module.exports = {
             }
         }
         return stockSuggestions;
+    },
+
+    async getTraderCompanies(traderID){
+        const tradersCollection = await traders();
+        let objectId = new ObjectId(traderID);
+        const trader1 = await tradersCollection.findOne({ _id: objectId });
+
+        let arr = [];
+        for(let id of trader1.stockArray) {
+            let company = await companies.getCompanyById(id);
+            arr.push(company);
+        }
+        
+        return arr;
     }
 
 };

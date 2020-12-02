@@ -11,7 +11,12 @@ router.get('/dashboard', async (req, res) => {
     }
     let actionItem = "" + new Date() + ": Viewed Dashboard.";
     const updateHistory = await traders.addTraderHistory(req.session.user._id, actionItem);
-    res.render('users/dashboard', { title: 'Your Dashboard', loggedIn: true});
+    const traderCompanies = await traders.getTraderCompanies(req.session.user._id);
+    res.render('users/dashboard', { 
+        title: 'Your Dashboard', 
+        loggedIn: true,
+        traderCompanies: traderCompanies
+    });
 });
 
 //add to companies in the database
