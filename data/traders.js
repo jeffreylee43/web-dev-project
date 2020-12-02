@@ -151,12 +151,49 @@ module.exports = {
         let stockSuggestions = [];
         for(let company1 of allCompanies) {
             for (let industry1 in uniqueIndustries){
-                if (uniqueIndustries[industry1] == company1.finnhubIndustry){
+                if (uniqueIndustries[industry1] == company1.finnhubIndustry && !(trader1.stockArray).includes(company1._id) ){
                     stockSuggestions.push(company1);
                 }
             }
         }
         return stockSuggestions;
+    },
+
+    async getTraderCompanies(traderID){
+        const tradersCollection = await traders();
+        let objectId = new ObjectId(traderID);
+        const trader1 = await tradersCollection.findOne({ _id: objectId });
+
+        let arr = [];
+        for(let id of trader1.stockArray) {
+            let company = await companies.getCompanyById(id);
+            arr.push(company);
+        }
+        
+        return arr;
+    },
+
+    async removeTraderStock(traderID, ticker){
+        const tradersCollection = await traders();
+        let objectId = new ObjectId(traderID);
+        const trader1 = await tradersCollection.findOne({ _id: objectId });
+        let company = await companies.getCompany(ticker);
+        let updatedTradersData = {};
+        let arr = trader1.stockArray;
+        for(let i = 0; i < arr.length; i++){          
+            if (arr[i] === company._id) { 
+                arr.splice(i, 1);
+            }
+        }
+        updatedTradersData.stockArray = arr;
+        const updatedInfo = await tradersCollection.updateOne(
+            { _id: objectId },
+            { $set: updatedTradersData }
+        );
+        if (updatedInfo.modifiedCount === 0) {
+            throw 'could not update trader history successfully';
+        }
+        return arr;
     }
 
 };
