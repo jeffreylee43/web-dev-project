@@ -1,27 +1,25 @@
 <div>
-    <h1>{{company.name}} ({{company.ticker}})</h1>
-    <img src="{{company.logo}}" alt="{{company.name}}">
+    <div class="company-info">
+        <h1>{{company.name}} ({{company.ticker}})</h1>
+        <img src="{{company.logo}}" alt="{{company.name}}" class="company-img">
 
-    <p>Price: {{company.price}}</p>
-    <p>Country: {{company.country}}</p>
-    <p>Currency: {{company.currency}}</p>
-    <p>Exchange: {{company.exchange}}</p>
-    <p>IPO Date: {{company.ipo}}</p>
-    <p>Market Capitalization: {{company.marketCapitalization}}</p>
-    <p>Number of Outstanding Shares: {{company.shareOutstanding}}</p>
-    <p>Industry: {{company.finnhubIndustry}}</p>
-    <p>Phone: {{company.phone}}</p>
-    <p>Website: {{company.weburl}}</p>
-    {{#if tickerExists}}
-    <button type="submit" name="addedButton" onclick="location.href='/users/dashboard';">Already Added</button>
-    {{else}}
-    <form method="POST" id="addButton">
-    <button type="submit" name="addButton">Add to Dashboard</button>
-    </form>
-    {{/if}}
-    <br>
-    <hr>
-    <br>
+        <p><span class="company-bold">Price:</span> {{company.price}}</p>
+        <p><span class="company-bold">Country:</span> {{company.country}}</p>
+        <p><span class="company-bold">Currency:</span> {{company.currency}}</p>
+        <p><span class="company-bold">Exchange:</span> {{company.exchange}}</p>
+        <p><span class="company-bold">IPO Date:</span> {{company.ipo}}</p>
+        <p><span class="company-bold">Market Capitalization:</span> {{company.marketCapitalization}}</p>
+        <p><span class="company-bold">Number of Outstanding Shares:</span> {{company.shareOutstanding}}</p>
+        <p><span class="company-bold">Industry:</span> {{company.finnhubIndustry}}</p>
+        <p><span class="company-bold">Phone:</span> {{company.phone}}</p>
+        <p><span class="company-bold">Website:</span> {{company.weburl}}</p>
+        <form method="POST" id="addButton">
+        <button type="submit" name="addButton">Add to Dashboard</button>
+        </form>
+        <br>
+        <hr>
+        <br>
+    </div>
     <h2>Reviews:</h2>
     {{#if reviewsExist}}
     <div id='reviews'>

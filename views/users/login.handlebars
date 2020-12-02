@@ -7,10 +7,10 @@
 
         <label for="password">Password: </label>
         <input type="password" name="password" id="password">
-        
+        <button type="submit">Login</button>
     </form>
-    <button type="submit" form="login-form">Login</button>
 
+    <div class="error-div">
     {{#if hasError}}
         <ul>
             {{#each errors}}
@@ -20,4 +20,5 @@
             {{/each}}
         </ul>
     {{/if}}
+    </div>
 </div>
