@@ -4,8 +4,8 @@ const stocks = mongoCollections.stocks;
 const bcrypt = require('bcryptjs');
 const saltRounds = 2;
 const { ObjectId } = require('mongodb');
-var path = require('path');
-var companies = require( path.resolve( __dirname, "./companies.js" ) );
+let path = require('path');
+let companies = require( path.resolve( __dirname, "./companies.js" ) );
 
 module.exports = {
     async addNewTrader(firstName, lastName, email, gender, age, password) {
@@ -88,7 +88,7 @@ module.exports = {
 
     async addTraderHistory(id, actionItem){
         const tradersCollection = await traders();
-        var objectId = new ObjectId(id);
+        let objectId = new ObjectId(id);
         const trader1 = await tradersCollection.findOne({ _id: objectId });
         let updatedTradersData = {};
         let arr = trader1.historyArray;
@@ -106,7 +106,7 @@ module.exports = {
 
     async removeTraderHistory(id){
         const tradersCollection = await traders();
-        var objectId = new ObjectId(id);
+        let objectId = new ObjectId(id);
         const trader1 = await tradersCollection.findOne({ _id: objectId });
         let updatedTradersData = {};
         updatedTradersData.historyArray = [];
@@ -122,9 +122,9 @@ module.exports = {
 
     async tickerExists(traderID, stockID){
         const tradersCollection = await traders();
-        var objectId = new ObjectId(traderID);
+        let objectId = new ObjectId(traderID);
         const trader1 = await tradersCollection.findOne({ _id: objectId });
-        var exists = false;
+        let exists = false;
         for(let id of trader1.stockArray) {
             if (id == stockID){
                 exists = true;
@@ -135,7 +135,7 @@ module.exports = {
 
     async getSuggestions(traderID){
         const tradersCollection = await traders();
-        var objectId = new ObjectId(traderID);
+        let objectId = new ObjectId(traderID);
         const trader1 = await tradersCollection.findOne({ _id: objectId });
         let arrIndustries = [];
 
@@ -143,7 +143,7 @@ module.exports = {
             let company = await companies.getCompanyById(id);
             arrIndustries.push(company.finnhubIndustry);
         }
-        var uniqueIndustries = arrIndustries.reduce(function(a,b){
+        let uniqueIndustries = arrIndustries.reduce(function(a,b){
             if (a.indexOf(b) < 0 ) a.push(b);
             return a;
           },[]);

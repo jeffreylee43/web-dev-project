@@ -13,7 +13,7 @@ router.get('/', async (req, res) => {
         let actionItem = "" + new Date() + ": Viewed User History.";
         const updateHistory = await traders.addTraderHistory(req.session.user._id, actionItem);
         const userInfo = await traders.getTraderById(req.session.user._id);
-        var historyExists = (userInfo.historyArray.length > 0) ? true : false;
+        let historyExists = (userInfo.historyArray.length > 0) ? true : false;
         res.render('users/history', {
             title: 'User History',
             loggedIn: true,
@@ -28,7 +28,7 @@ router.get('/', async (req, res) => {
 router.post('/', async (req, res) => {
     try {
         const userInfo = await traders.getTraderById(req.session.user._id);
-        var historyExists = (userInfo.historyArray.length > 0) ? true : false;
+        let historyExists = (userInfo.historyArray.length > 0) ? true : false;
         if (historyExists){
             const deleted = await traders.removeTraderHistory(req.session.user._id);
             res.render('users/history', {

@@ -3,15 +3,16 @@ const mongoCollections = require('../config/mongoCollections');
 const reviews = mongoCollections.reviews;
 const stocks = mongoCollections.stocks;
 const traders = mongoCollections.traders;
-var path = require('path');
-var companies = require( path.resolve( __dirname, "./companies.js" ) );
+let path = require('path');
+let companies = require( path.resolve( __dirname, "./companies.js" ) );
 
 module.exports = {
     async getReviewById(id){
         if (!id) throw 'Must provide an id';
         if (typeof id != 'string' || !id.replace(/\s/g,'').length) throw 'Type of ID must be a non-empty string';
+        let objectId;
         try {
-            var objectId = new ObjectID(id);
+            objectId = new ObjectID(id);
         } catch (e){
             throw 'Error: Argument ID passed in must be a single String of 12 bytes or a string of 24 hex characters';
         }
@@ -23,7 +24,7 @@ module.exports = {
         return review;
     },
     async addReview(reviewpost, rating, companyID, traderID) {
-        var date = new Date();
+        let date = new Date();
         let temprating = rating;
         let ratingsArr = [];
         while (temprating > 0){
@@ -46,7 +47,7 @@ module.exports = {
 
         //Add review id to company collection
         const companiesCollection = await stocks();
-        var objectId = new ObjectID(review.companyID);
+        let objectId = new ObjectID(review.companyID);
         const company1 = await companiesCollection.findOne({ _id: objectId });
         let updatedCompanyData = {};
         let arr = company1.reviews;
@@ -62,7 +63,7 @@ module.exports = {
 
         //Add review id to trader collection
         const tradersCollection = await traders();
-        var objectId2 = new ObjectID(review.traderID);
+        let objectId2 = new ObjectID(review.traderID);
         const trader1 = await tradersCollection.findOne({ _id: objectId2 });
         let updatedTraderData = {};
         let arr2 = trader1.reviewArray;
@@ -93,7 +94,7 @@ module.exports = {
     
     async getAverageRating(company){
         const allReviews = await this.getAllReviews(company);
-        var avgRating = 0;
+        let avgRating = 0;
         for (let r in allReviews){
             avgRating += allReviews[r].rating;
         }

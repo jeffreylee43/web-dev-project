@@ -128,8 +128,9 @@ module.exports = {
     async getCompanyById(id) {
         if (!id) throw 'Must provide an id';
         if (typeof id != 'string' || !id.replace(/\s/g,'').length) throw 'Type of ID must be a non-empty string';
+        let objectId;
         try {
-            var objectId = new ObjectID(id);
+            objectId = new ObjectID(id);
         } catch (e){
             throw 'Error: Argument ID passed in must be a single String of 12 bytes or a string of 24 hex characters';
         }
