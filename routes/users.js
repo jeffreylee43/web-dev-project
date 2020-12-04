@@ -14,9 +14,7 @@ router.get('/dashboard', async (req, res) => {
     res.render('users/dashboard', { title: 'Your Dashboard', loggedIn: true});
 });
 
-//add to companies in the database
 
-//make it go to companies/AAPL
 router.post('/dashboard', async (req, res) => {
     try{
     const search = req.body.searchTicker;
