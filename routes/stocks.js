@@ -20,10 +20,19 @@ router.get('/stocksList', async (req, res) => {
             actionItem
         );
         const allCompanies = await companies.getAllCompanies();
+
+        // Updating prices of stocks when loading stocks list page (issue: eventually gets an error, i believe it's b/c of api calls)
+        // for(let company of allCompanies) {
+        //     await companies.updateCompany(company.ticker);
+        // }
+
+        // const allCompaniesUpdated = await companies.getAllCompanies();
+
         res.render('stocks/stocksList', {
             title: 'List of Stocks',
             loggedIn: true,
-            allCompanies: allCompanies,
+            allCompanies: allCompanies
+            // allCompanies: allCompaniesUpdated
         });
     } catch (e) {
         res.status(500).json({ error: e });
@@ -43,42 +52,49 @@ router.post('/stocksList', async (req, res) => {
             req.session.user._id,
             actionItem
         );
+        if (req.body.addButton){
+            let addInput = req.body.addButton;
+            let stockTicker = addInput[0];
+            const company = await companies.getCompany(stockTicker);
+            let actionItem = "Added company " + company.name + " to Dashboard.";
+            const updateHistory = await traders.addTraderHistory(req.session.user._id, actionItem);
+            const addToDashBoard = await companies.addStockDashboard(req.session.user._id, company._id);
+            res.redirect('/stocks/stocksList');
+        } else {
+            let sort = req.body.sort;
+            const stocksCollection = await stocks();
+            let stocksList;
+            switch (sort) {
+                case 'name':
+                    stocksList = await stocksCollection
+                        .find({})
+                        .sort({ name: 1 })
+                        .toArray();
+                    break;
+                case 'price':
+                    stocksList = await stocksCollection
+                        .find({})
+                        .sort({ price: 1 })
+                        .toArray();
+                    break;
+                case 'rating':
+                    stocksList = await stocksCollection
+                        .find({})
+                        .sort({ averageRating: 1 })
+                        .toArray();
+                    break;
+            }
 
-        let sort = req.body.sort;
-
-        const stocksCollection = await stocks();
-
-        var stocksList;
-        switch (sort) {
-            case 'name':
-                stocksList = await stocksCollection
-                    .find({})
-                    .sort({ name: 1 })
-                    .toArray();
-                break;
-            case 'price':
-                stocksList = await stocksCollection
-                    .find({})
-                    .sort({ price: 1 })
-                    .toArray();
-                break;
-            case 'rating':
-                stocksList = await stocksCollection
-                    .find({})
-                    .sort({ averageRating: 1 })
-                    .toArray();
-                break;
+            for (let obj of stocksList) {
+                const stringId = obj._id.toString();
+                obj._id = stringId;
+            }
+            res.render('stocks/stocksList', {
+                title: 'List of Stocks',
+                loggedIn: true,
+                allCompanies: stocksList,
+            });
         }
-
-        for (let obj of stocksList) {
-            const stringId = obj._id.toString();
-            obj._id = stringId;
-        }
-        res.render('stocks/stocksList', {
-            title: 'List of Stocks',
-            loggedIn: true,
-            allCompanies: stocksList,
-        });
     } catch (e) {
         res.status(500).json({ error: e });
     }

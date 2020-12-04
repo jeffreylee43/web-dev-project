@@ -1,9 +1,11 @@
 const mongoCollections = require('../config/mongoCollections');
 const traders = mongoCollections.traders;
+const stocks = mongoCollections.stocks;
 const bcrypt = require('bcryptjs');
 const saltRounds = 2;
 const { ObjectId } = require('mongodb');
-
+let path = require('path');
+let companies = require( path.resolve( __dirname, "./companies.js" ) );
 
 module.exports = {
     async addNewTrader(firstName, lastName, email, gender, age, password) {
@@ -86,7 +88,7 @@ module.exports = {
 
     async addTraderHistory(id, actionItem){
         const tradersCollection = await traders();
-        var objectId = new ObjectId(id);
+        let objectId = new ObjectId(id);
         const trader1 = await tradersCollection.findOne({ _id: objectId });
         let updatedTradersData = {};
         let arr = trader1.historyArray;
@@ -100,5 +102,98 @@ module.exports = {
             throw 'could not update trader history successfully';
         }
         return arr;
+    },
+
+    async removeTraderHistory(id){
+        const tradersCollection = await traders();
+        let objectId = new ObjectId(id);
+        const trader1 = await tradersCollection.findOne({ _id: objectId });
+        let updatedTradersData = {};
+        updatedTradersData.historyArray = [];
+        const updatedInfo = await tradersCollection.updateOne(
+            { _id: objectId },
+            { $set: updatedTradersData }
+        );
+        if (updatedInfo.modifiedCount === 0) {
+            throw 'could not update trader history successfully';
+        }
+        return "deleted";
+    }, 
+
+    async tickerExists(traderID, stockID){
+        const tradersCollection = await traders();
+        let objectId = new ObjectId(traderID);
+        const trader1 = await tradersCollection.findOne({ _id: objectId });
+        let exists = false;
+        for(let id of trader1.stockArray) {
+            if (id == stockID){
+                exists = true;
+            }
+        }
+        return exists;
+    }, 
+
+    async getSuggestions(traderID){
+        const tradersCollection = await traders();
+        let objectId = new ObjectId(traderID);
+        const trader1 = await tradersCollection.findOne({ _id: objectId });
+        let arrIndustries = [];
+
+        for(let id of trader1.stockArray) {
+            let company = await companies.getCompanyById(id);
+            arrIndustries.push(company.finnhubIndustry);
+        }
+        let uniqueIndustries = arrIndustries.reduce(function(a,b){
+            if (a.indexOf(b) < 0 ) a.push(b);
+            return a;
+          },[]);
+        const allCompanies = await companies.getAllCompanies();
+        let stockSuggestions = [];
+        for(let company1 of allCompanies) {
+            for (let industry1 in uniqueIndustries){
+                if (uniqueIndustries[industry1] == company1.finnhubIndustry && !(trader1.stockArray).includes(company1._id) ){
+                    stockSuggestions.push(company1);
+                }
+            }
+        }
+        return stockSuggestions;
+    },
+
+    async getTraderCompanies(traderID){
+        const tradersCollection = await traders();
+        let objectId = new ObjectId(traderID);
+        const trader1 = await tradersCollection.findOne({ _id: objectId });
+
+        let arr = [];
+        for(let id of trader1.stockArray) {
+            let company = await companies.getCompanyById(id);
+            arr.push(company);
+        }
+        
+        return arr;
+    },
+
+    async removeTraderStock(traderID, ticker){
+        const tradersCollection = await traders();
+        let objectId = new ObjectId(traderID);
+        const trader1 = await tradersCollection.findOne({ _id: objectId });
+        let company = await companies.getCompany(ticker);
+        let updatedTradersData = {};
+        let arr = trader1.stockArray;
+        for(let i = 0; i < arr.length; i++){          
+            if (arr[i] === company._id) { 
+                arr.splice(i, 1);
+            }
+        }
+        updatedTradersData.stockArray = arr;
+        const updatedInfo = await tradersCollection.updateOne(
+            { _id: objectId },
+            { $set: updatedTradersData }
+        );
+        if (updatedInfo.modifiedCount === 0) {
+            throw 'could not update trader history successfully';
+        }
+        return arr;
     }
+
 };

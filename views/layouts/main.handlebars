@@ -9,12 +9,54 @@
         integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
     <link rel="stylesheet" href="/public/css/landingpage.css">
     <link rel="stylesheet" href="/public/css/companies.css">
+    <link rel="stylesheet" href="/public/css/companyProfile.css">
+    <link rel="stylesheet" href="/public/css/dashboard.css">
+    <link rel="stylesheet" href="/public/css/news.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 
 <body>
     <header>
-        <nav>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            {{#if loggedIn}}
+            <a class="navbar-brand" href="/users/dashboard">Stocks Dashboard Website </a>
+            {{else}}
+            <a class="navbar-brand" href="/">Stocks Dashboard Website </a>
+            {{/if}}
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    {{#if loggedIn}}
+                    <li class="nav-item">
+                        <a class="nav-link" href="/users/dashboard">Your Dashboard</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/stocks/stocksList">Stocks List</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/history">View History</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/news">News Feed</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/logout">Logout</a>
+                    </li>
+                    {{else}}
+                    <li class="nav-item">
+                        <a class="nav-link" href="/login">Login</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/register">Register</a>
+                    </li>
+                    {{/if}}
+                </ul>
+            </div>
+        </nav>
+
+        {{!-- <nav>
             <ul>
                 {{#if loggedIn}}
                 <li><a href="/users/dashboard">Stocks Dashboard Website</a></li>
@@ -24,14 +66,16 @@
                 <li><a href="/users/dashboard">Your Dashboard</a></li>
                 <li><a href="/stocks/stocksList">Stocks List</a></li>
                 {{#if loggedIn}}
-                <li><a href="/logout">Logout</a></li>
                 <li><a href="/history">View History</a></li>
+                <li><a href="/news">NewsFeed</a></li>
+                <li><a href="/logout">Logout</a></li>
                 {{else}}
                 <li><a href="/login">Login</a></li>
                 <li><a href="/register">Register</a></li>
                 {{/if}}
             </ul>
-        </nav>
+        </nav> --}}
+
         {{!-- <nav class="navbar navbar-expand-lg navbar-light bg-light">
             {{#if loggedIn}}
             <a class="navbar-brand" href="../users/dashboard">Stocks Dashboard Website</a>

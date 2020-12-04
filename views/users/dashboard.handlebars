@@ -6,6 +6,7 @@
       <input type="text" name="searchTicker" placeholder="AAPL" class="full-width-input"/>
       <button type="submit">Submit</button>
     </label>
+    </form>
     {{!-- <div>
         {{#each userStocks}}
         <div>
@@ -13,4 +14,73 @@
         </div>
         {{/each}}
     </div> --}}
+    <br>
+    <br>
+    <br>
+    <div class="listLayout">
+        {{#each traderCompanies}}
+        <div class="companyBox">
+            <a href="../companies/{{this.ticker}}">
+                {{this.name}} ({{this.ticker}})
+            </a>
+            <form method="POST">
+                <input name="removeButton" type="hidden" value="{{this.ticker}}">
+                <button type="submit" class="remove-button" name="removeButton">Remove</button>
+            </form>
+            {{#if this.increased}}
+            <p>Price: {{this.price}} <span class="greenStock">+{{this.change}} ({{this.percentIncrease}}%)</span></p>
+            {{else}}
+            <p>Price: {{this.price}} <span class="redStock">{{this.change}} ({{this.percentIncrease}}%)</span></p>
+            {{/if}}
+            <p>Average Rating:
+                {{#if this.averageRating}} {{#each this.ratingsArr}} <span class="fa fa-star checked"></span> {{/each}}
+            </p>
+            {{else}} No Ratings Found </p>
+            {{/if}}
+        </div>
+        {{/each}}
+    </div>
+    <br>
+    <br>
+    {{#if sugRequest}}
+      <button type="submit" name="addedButton" onclick="location.href='/users/dashboard';">Hide Suggestions</button>
+       <hr>
+      <h2>Suggestions:</h2>
+    {{else}}
+    <div>
+      <form method="POST" id="sugButton">
+        <input id="showSug" name="showSug" type="hidden" value="showSug">
+      <button type="submit" name="sugShowButton">Show Suggestions</button>
+    </div>
+    {{/if}}
+    
+    {{#if noSuggestions}}
+        <div>
+            <p>There are currently no suggestions to be made.</p>
+        </div>
+    {{else}}
+        <div class="suggestionsLayout">
+            {{#each allCompanies}}
+            <div class="companyBoxSuggestion">
+                <a href="../companies/{{this.ticker}}">
+                    {{this.name}} ({{this.ticker}})
+                </a>
+                {{#if this.increased}}
+                <p>Price: {{this.price}} <span class="greenStock">+{{this.change}} ({{this.percentIncrease}}%)</span></p>
+                {{else}}
+                <p>Price: {{this.price}} <span class="redStock">{{this.change}} ({{this.percentIncrease}}%)</span></p>
+                {{/if}}
+                <p>Average Rating: 
+                    {{#if this.averageRating}} {{#each this.ratingsArr}} <span class="fa fa-star checked"></span> {{/each}}</p>
+                    {{else}} No Ratings Found </p>
+                    {{/if}}
+                
+                <form method="POST">
+                <input name="addButton" type="hidden" value="{{this.ticker}}">
+                <button type="submit" class="add-button" name="addButton">Add</button>
+                </form>
+            </div>
+            {{/each}}
+        </div>
+    {{/if}}
 </div>

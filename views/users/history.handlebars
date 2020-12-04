@@ -8,5 +8,14 @@
             <p>{{this}}</p>
         {{/each}}
     </div>
-
+    <br>
+    <br>
+    {{#if historyExists}}
+        <form method="POST" id="removeButton">
+        <button type="submit" name="removeButton">Remove All User History</button>
+        </form>
+    {{else}}
+    {{/if}}
+    <br>
+    <br>
 </div>

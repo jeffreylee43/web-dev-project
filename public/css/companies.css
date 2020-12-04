@@ -7,15 +7,15 @@
 .companyBox {
     margin: 20px;
     padding: 10px;
-    height: 100px;
+    height: auto;
     background-color: lightgrey;
     width: 30%;
     border-radius: 10px;
 }
 
-.companyBox:hover {
+/* .companyBox:hover {
     background-color: lightblue;
-}
+} */
 
 .greenStock {
     color: #34a853;
@@ -23,4 +23,32 @@
 
 .redStock {
     color: #d93025;
+}
+
+.add-button {
+    float: right;
+}
+
+.add-button:hover {
+    background-color: lightcyan;
+}
+
+.remove-button {
+    float: right;
+}
+
+.remove-button:hover {
+    background-color: lightcyan;
+}
+
+.company-info {
+    padding-left: 10px;
+}
+
+.company-img {
+    margin: 30px 0;
+}
+
+.company-bold {
+    font-weight: bold;
 }

@@ -14,6 +14,10 @@ module.exports = {
         );
         return data;
     },
+    async getAPIAllCompanies(apiKey){
+        const {data} = await axios.get(`https://finnhub.io/api/v1/stock/symbol?exchange=US&token=${apiKey}`);
+        return data
+    },
     async addCompany(tickerInput) {
         if (!tickerInput) throw 'The ticker must be provided.';
         if (
@@ -121,6 +125,24 @@ module.exports = {
         return foundCompany;
     },
 
+    async getCompanyById(id) {
+        if (!id) throw 'Must provide an id';
+        if (typeof id != 'string' || !id.replace(/\s/g,'').length) throw 'Type of ID must be a non-empty string';
+        let objectId;
+        try {
+            objectId = new ObjectID(id);
+        } catch (e){
+            throw 'Error: Argument ID passed in must be a single String of 12 bytes or a string of 24 hex characters';
+        }
+        if (!objectId) throw 'Id provided is not a valid Object ID.';
+        const stocksCollection = await stocks();
+        const foundCompany = await stocksCollection.findOne({_id: objectId});
+        if(foundCompany === null) throw 'There are no companies found with the provided id.';
+        const stringId = foundCompany._id.toString();
+        foundCompany._id = stringId;
+        return foundCompany;
+    },
+
     async updateCompany(ticker) {
         const gotCompany = await this.getCompany(ticker);
         if (!gotCompany) throw 'Company does not exist within database.';
@@ -183,7 +205,7 @@ module.exports = {
 
     async addStockDashboard(traderID, companyID) {
         const tradersCollection = await traders();
-        var objectId = new ObjectID(traderID);
+        let objectId = new ObjectID(traderID);
         const trader1 = await tradersCollection.findOne({ _id: objectId });
         let updatedTraderData = {};
         let arr = trader1.stockArray;
