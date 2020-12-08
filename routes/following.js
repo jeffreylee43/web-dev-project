@@ -16,13 +16,15 @@ router.get('/', async (req, res) => {
         let followingNotExists = (userInfo.followingArray.length > 0) ? false : true;
         let mostPopularStocks = (!followingNotExists) ?  await traders.getMostPopularStocks(req.session.user._id) : [];
         let commonStocksExist = (mostPopularStocks.length == 0) ? false : true;
+        const allFollowing = await traders.getFollowingTraders(userInfo._id);
         res.render('users/following', {
             title: 'View Other Users',
             loggedIn: true,
             userInfo: userInfo,
             allCompanies: mostPopularStocks,
             commonStocksExist: commonStocksExist,
-            followingNotExists: followingNotExists
+            followingNotExists: followingNotExists,
+            allFollowing: allFollowing
         });
     } catch (e) {
         res.status(500).json({ error: e });
@@ -54,6 +56,7 @@ router.post('/', async (req, res) => {
             if (errors.length > 0){
                 let mostPopularStocks = (!followingNotExists) ?  await traders.getMostPopularStocks(req.session.user._id) : [];
                 let commonStocksExist = (mostPopularStocks.length == 0) ? false : true;
+                const allFollowing = await traders.getFollowingTraders(userInfo._id);
                 res.render('users/following', {
                     title: 'View Other Users',
                     loggedIn: true,
@@ -62,14 +65,15 @@ router.post('/', async (req, res) => {
                     commonStocksExist: commonStocksExist,
                     hasError: hasError,
                     errors: errors,
-                    followingNotExists: followingNotExists
+                    followingNotExists: followingNotExists,
+                    allFollowing: allFollowing
                 });
             } else {
-                res.redirect('/users/dashboard/' + req.body.userInput);
+                res.redirect('/profile/' + req.body.userInput);
             }
         } else if (req.body.visitButton){
             let userEmail = req.body.visitButton;
-            res.redirect('/users/dashboard/' + userEmail[0]);
+            res.redirect('/profile/' + userEmail[0]);
         } else if (req.body.addButton){
             let addInput = req.body.addButton;
             let stockTicker = addInput[0];

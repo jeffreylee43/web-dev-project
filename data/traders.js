@@ -284,5 +284,18 @@ module.exports = {
             }
         }
         return !isNewUser;
+    },
+
+    async getFollowingTraders(id){
+        const tradersCollection = await traders();
+        let objectId = new ObjectId(id);
+        const trader1 = await tradersCollection.findOne({ _id: objectId });
+        let arr = trader1.followingArray;
+        let finalarr = [];
+        for (let fl of arr) {
+            let trader1 = await this.getTraderByEmail(fl);
+            finalarr.push(trader1);
+        }
+        return finalarr;
     }
 };

@@ -31,7 +31,7 @@ router.get('/dashboard/:email', async (req, res) => {
     } else {
         let actionItem = "" + new Date() + ": Viewed " + req.params.email + "'s Dashboard.";
         const updateHistory = await traders.addTraderHistory(req.session.user._id, actionItem);
-        let title = trader2Info.email + "'s Dashboard";
+        let title = trader2Info.firstName + " " + trader2Info.lastName + "'s Dashboard";
         let alreadyFollowed = await traders.alreadyFollowed(req.session.user._id, req.params.email);
         res.render('users/publicDash', { 
             title: title, 
