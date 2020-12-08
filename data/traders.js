@@ -8,7 +8,7 @@ let path = require('path');
 let companies = require( path.resolve( __dirname, "./companies.js" ) );
 
 module.exports = {
-    async addNewTrader(firstName, lastName, email, gender, age, password) {
+    async addNewTrader(firstName, lastName, email, gender, age, status, password) {
         if(!firstName || typeof firstName !== "string") throw 'Your first name must be provided and must be a string.';
         if(!lastName || typeof lastName !== "string") throw 'Your last name must be provided and must be a string.';
         if(!email) throw 'Email must be provided.';
@@ -26,9 +26,11 @@ module.exports = {
             email: email,
             gender: gender,
             age: age,
+            status: status,
             stockArray: [],
             reviewArray: [],
             historyArray: [],
+            followingArray: [],
             hashPassword: hash
         };
 
@@ -194,6 +196,93 @@ module.exports = {
             throw 'could not update trader history successfully';
         }
         return arr;
-    }
+    },
 
+    async addFollowingArray(id, uniqueIndentifier){
+        const tradersCollection = await traders();
+        let objectId = new ObjectId(id);
+        const trader1 = await tradersCollection.findOne({ _id: objectId });
+        let updatedTradersData = {};
+        let arr = trader1.followingArray;
+        let isNewUser = true;
+        for (let fl of arr) {
+            if (fl == uniqueIndentifier) {
+                isNewUser = false;
+            }
+        }
+        if (isNewUser) {
+            arr.push(uniqueIndentifier);
+            updatedTradersData.followingArray = arr;
+            const updatedInfo = await tradersCollection.updateOne(
+                { _id: objectId },
+                { $set: updatedTradersData }
+            );
+            if (updatedInfo.modifiedCount === 0) {
+                throw 'could not update users following data successfully';
+            }
+        }
+        return arr;
+    },
+
+    async removeFollowingArray(traderID, uniqueIndentifier){
+        const tradersCollection = await traders();
+        let objectId = new ObjectId(traderID);
+        const trader1 = await tradersCollection.findOne({ _id: objectId });
+        let updatedTradersData = {};
+        let arr = trader1.followingArray;
+        for(let i = 0; i < arr.length; i++){          
+            if (arr[i] === uniqueIndentifier) { 
+                arr.splice(i, 1);
+            }
+        }
+        updatedTradersData.followingArray = arr;
+        const updatedInfo = await tradersCollection.updateOne(
+            { _id: objectId },
+            { $set: updatedTradersData }
+        );
+        if (updatedInfo.modifiedCount === 0) {
+            throw 'could not update users following data successfully';
+        }
+        return arr;
+    },
+
+    async getMostPopularStocks(traderID){
+        const tradersCollection = await traders();
+        let objectId = new ObjectId(traderID);
+        const trader1 = await tradersCollection.findOne({ _id: objectId });
+        let arr = trader1.followingArray;
+        let allStocks = [];
+        for (let fl of arr) {
+            let secTrader = await this.getTraderByEmail(fl);
+            allStocks = allStocks.concat(secTrader.stockArray);
+        }
+        let uniqueStocks = allStocks.reduce(function(a,b){
+            if (a.indexOf(b) < 0 ) a.push(b);
+            return a;
+          },[]);
+        const allCompanies = await companies.getAllCompanies();
+        let popularStocks = [];
+        for(let company1 of allCompanies) {
+            for (let stock1 in uniqueStocks){
+                if (uniqueStocks[stock1] == company1._id){
+                    popularStocks.push(company1);
+                }
+            }
+        }
+        return popularStocks;
+    },
+
+    async alreadyFollowed(traderID, uniqueIndentifier){
+        const tradersCollection = await traders();
+        let objectId = new ObjectId(traderID);
+        const trader1 = await tradersCollection.findOne({ _id: objectId });
+        let arr = trader1.followingArray;
+        let isNewUser = true;
+        for (let fl of arr) {
+            if (fl == uniqueIndentifier) {
+                isNewUser = false;
+            }
+        }
+        return !isNewUser;
+    }
 };

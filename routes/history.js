@@ -26,6 +26,9 @@ router.get('/', async (req, res) => {
 });
 
 router.post('/', async (req, res) => {
+    if(!req.session.user) {
+        return res.status(403).render('users/notLoggedIn', {title: "Not Logged In", loggedIn: false});
+    }
     try {
         const userInfo = await traders.getTraderById(req.session.user._id);
         let historyExists = (userInfo.historyArray.length > 0) ? true : false;
