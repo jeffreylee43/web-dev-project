@@ -26,12 +26,12 @@ router.post('/', async (req, res) => {
                 req.session.user = {_id: trader._id, firstName: trader.firstName, lastName: trader.lastName, email: emailForCheck, gender: trader.gender, age: trader.age, stockArray: trader.stockArray, reviewArray: trader.reviewArray, historyArray: trader.historyArray};
                 return res.redirect('/users/dashboard');
             } else {
-                errors.push('You did not provide a valid password');
+                errors.push('You did not provide a valid username and/or password');
                 return res.status(401).render('users/login', {title: "Login", loggedIn: false, hasError: true, errors: errors});
             }
         }
     }
-    errors.push('You did not provide a valid username');
+    errors.push('You did not provide a valid username and/or password');
     res.status(401).render('users/login', {title: "Login", loggedIn: false, hasError: true, errors: errors});
 });
 
