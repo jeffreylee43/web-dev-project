@@ -33,7 +33,11 @@ const main = async () => {
     let company24 = await companies.addCompany("TWTR");
     let company25 = await companies.addCompany("F");
 
-    let trader1 = await traders.addNewTrader('Alex', 'Smith', 'asmith@stevens.edu', 'M', 25, 'abcd');
+    let trader1 = await traders.addNewTrader('Alex', 'Smith', 'asmith@stevens.edu', 'M', 25, 'public', 'abcd');
+    let trader2 = await traders.addNewTrader('Jim', 'Lake', 'jlake@stevens.edu', 'M', 28, 'public', 'abcd');
+    let trader3 = await traders.addNewTrader('Bob', 'Hardway', 'bhardway@stevens.edu', 'M', 32, 'public', 'abcd');
+    let trader4 = await traders.addNewTrader('Kevin', 'Lee', 'klee@stevens.edu', 'M', 18, 'private', 'abcd');
+    let trader5 = await traders.addNewTrader('Mike', 'Scott', 'mscott@stevens.edu', 'M', 22, 'private', 'abcd');
 
     await db.serverConfig.close();
 }

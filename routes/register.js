@@ -43,7 +43,7 @@ router.post('/', async (req, res) => {
         errors.push("The provided email address is already in use.");
         return res.status(401).render('users/register', {title: "Register", loggedIn: false, hasError: true, errors: errors});
     } catch (e) {
-        const newTrader = await traders.addNewTrader(firstName, lastName, emailForCheck, gender, parsedAge, password);
+        const newTrader = await traders.addNewTrader(firstName, lastName, emailForCheck, gender, parsedAge, "private", password);
         req.session.user = {_id: newTrader._id, firstName: newTrader.firstName, lastName: newTrader.lastName, email: emailForCheck, gender: newTrader.gender, age: newTrader.age, stockArray: newTrader.stockArray, reviewArray: newTrader.reviewArray};
         res.redirect('/users/dashboard');
     }
