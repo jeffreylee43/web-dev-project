@@ -6,6 +6,7 @@ const traders = mongoCollections.traders;
 let path = require('path');
 let companies = require( path.resolve( __dirname, "./companies.js" ) );
 
+
 module.exports = {
     async getReviewById(id){
         if (!id) throw 'Must provide an id';
@@ -31,9 +32,15 @@ module.exports = {
             ratingsArr.push("1");
             temprating--;
         }
+        const tradersCollection = await traders();
+        let objectId2 = new ObjectID(traderID);
+        const trader1 = await tradersCollection.findOne({ _id: objectId2 });
+
         let newReview = {
             companyID: companyID,
             traderID: traderID,
+            traderName: trader1.firstName + " " + trader1.lastName,
+            traderEmail: trader1.email,
             date: date,
             ratingsArr: ratingsArr,
             rating: Number(rating),
@@ -62,9 +69,6 @@ module.exports = {
         }
 
         //Add review id to trader collection
-        const tradersCollection = await traders();
-        let objectId2 = new ObjectID(review.traderID);
-        const trader1 = await tradersCollection.findOne({ _id: objectId2 });
         let updatedTraderData = {};
         let arr2 = trader1.reviewArray;
         arr2.push(newId);
@@ -94,6 +98,29 @@ module.exports = {
     
     async getAverageRating(company){
         const allReviews = await this.getAllReviews(company);
+        let avgRating = 0;
+        for (let r in allReviews){
+            avgRating += allReviews[r].rating;
+        }
+        return avgRating/allReviews.length;
+    },
+
+    async getAllReviewsTrader(trader){
+        let output = [];
+        let allReviews = trader.reviewArray;
+        for (let r in allReviews){
+            const rev = await this.getReviewById(allReviews[r]);
+            const stocksCollection = await stocks();
+            let objectId2 = new ObjectID(rev.companyID);
+            const company1 = await stocksCollection.findOne({ _id: objectId2 });
+            rev.companyName = company1.name;
+            output.push( rev );
+        }
+        return output;
+    },
+
+    async getAverageRatingTrader(trader){
+        const allReviews = await this.getAllReviewsTrader(trader);
         let avgRating = 0;
         for (let r in allReviews){
             avgRating += allReviews[r].rating;
