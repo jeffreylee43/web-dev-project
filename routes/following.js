@@ -73,10 +73,10 @@ router.post('/', async (req, res) => {
             }
         } else if (req.body.visitButton){
             let userEmail = req.body.visitButton;
-            res.redirect('/profile/' + userEmail[0]);
+            res.redirect('/profile/' + userEmail);
         } else if (req.body.addButton){
             let addInput = req.body.addButton;
-            let stockTicker = addInput[0];
+            let stockTicker = addInput;
             const company = await companies.getCompany(stockTicker);
             let actionItem = "" + new Date() + ": Added company " + company.name + " to Dashboard.";
             const updateHistory = await traders.addTraderHistory(req.session.user._id, actionItem);

@@ -9,7 +9,8 @@
                 <option value="price">price</option>
                 <option value="rating">rating</option>
             </select>
-            <input type="submit">
+            {{!-- <input type="submit"> --}}
+            <button type ="submit">Submit</button>
         </div>
     </form>
 
@@ -22,8 +23,8 @@
             </a>
 
                 <form method="POST">
-                <input name="addButton" type="hidden" value="{{this.ticker}}">
-                <button type="submit" class="add-button" name="addButton">Add</button>
+                {{!-- <input name="addButton" type="hidden" value="{{this.ticker}}"> --}}
+                <button type="submit" class="add-button" name="addButton" value="{{this.ticker}}">Add</button>
                 </form>
  
             {{#if this.increased}}
