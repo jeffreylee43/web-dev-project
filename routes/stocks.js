@@ -56,7 +56,7 @@ router.post('/stocksList', async (req, res) => {
         );
         if (req.body.addButton){
             let addInput = req.body.addButton;
-            let stockTicker = addInput[0];
+            let stockTicker = addInput;
             const company = await companies.getCompany(stockTicker);
             let actionItem = "" + new Date() + ": Added company " + company.name + " to Dashboard.";
             const updateHistory = await traders.addTraderHistory(req.session.user._id, actionItem);
@@ -82,7 +82,7 @@ router.post('/stocksList', async (req, res) => {
                 case 'rating':
                     stocksList = await stocksCollection
                         .find({})
-                        .sort({ averageRating: 1 })
+                        .sort({ averageRating: -1 })
                         .toArray();
                     break;
             }

@@ -117,7 +117,7 @@ router.post('/dashboard', async (req, res) => {
             });
         } else if (req.body.addButton) {
             let addInput = req.body.addButton;
-            let stockTicker = addInput[0];
+            let stockTicker = addInput;
             const company = await companies.getCompany(stockTicker);
             let actionItem = "" + new Date() + ": Added company " + company.name + " to Dashboard.";
             const updateHistory = await traders.addTraderHistory(req.session.user._id, actionItem);
@@ -125,7 +125,7 @@ router.post('/dashboard', async (req, res) => {
             res.redirect('/users/dashboard');
         } else if (req.body.removeButton) {
             let removeInput = req.body.removeButton;
-            let stockTicker = removeInput[0];
+            let stockTicker = removeInput;
             const company = await companies.getCompany(stockTicker);
             let actionItem = "" + new Date() + ": Removed company " + company.name + " from Dashboard.";
             const updateHistory = await traders.addTraderHistory(req.session.user._id, actionItem);
