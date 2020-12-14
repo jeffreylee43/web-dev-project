@@ -4,22 +4,22 @@
     <form method="POST" action="/register" id="register-form">
         <div>
             <label for="firstName">First Name: </label>
-            <input type="text" name="firstName" id="firstName">
+            <input type="text" name="firstName" id="firstName" value="{{post.firstName}}"/>
         </div>
 
         <div>
             <label for="lastName">Last Name: </label>
-            <input type="text" name="lastName" id="lastName">
+            <input type="text" name="lastName" id="lastName" value="{{post.lastName}}"/>
         </div>
         
         <div>
             <label for="email">Email Address: </label>
-            <input type="email" name="email" id="email">
+            <input type="email" name="email" id="email" value="{{post.email}}"/>
         </div>
 
         <div>
             <label for="password">Password: </label>
-            <input type="password" name="password" id="password">
+            <input type="password" name="password" id="password" value="{{post.password}}">
         </div>
 
         <div>
@@ -34,7 +34,7 @@
 
         <div>
             <label for="age">Age: </label>
-            <input type="number" name="age" id="age">
+            <input type="number" name="age" id="age" value="{{post.age}}">
         </div>
         <button type="submit">Register</button> 
     </form>

@@ -14,7 +14,7 @@
         <p><span class="company-bold">Phone:</span> {{company.phone}}</p>
         <p><span class="company-bold">Website:</span> {{company.weburl}}</p>
         <form method="POST" id="addButton">
-        <button type="submit" name="add-button">Add to Dashboard</button>
+        <button type="submit" name="addButton">Add to Dashboard</button>
         </form>
         <br>
         <hr>
@@ -23,11 +23,7 @@
     <h2>Reviews:</h2>
     {{#if reviewsExist}}
     <div id='reviews'>
-        <h3>Average User Rating
-            {{#each company.ratingsArr}}
-                <span class="fa fa-star checked"></span>
-            {{/each}}
-        </h3>
+        <h3>Average Rating Given: {{avgRating}}/5 </h3>
         {{#each reviews}}
             <p>
                 Date: {{this.date}}
@@ -37,6 +33,9 @@
             </p>
             <p>
                 User Rating: {{#each this.ratingsArr}} <span class="fa fa-star checked"></span> {{/each}}
+            </p>
+            <p>
+                Reviewer: <a href='/profile/{{this.traderEmail}}'>{{this.traderName}}</a>
             </p>
             <br>
         {{/each}}

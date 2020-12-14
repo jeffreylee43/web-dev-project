@@ -14,7 +14,8 @@ router.get('/:ticker', async (req, res) => {
     try {
         const company = await companies.updateCompany(req.params.ticker);
         const allReviews = await reviews.getAllReviews(company);
-        const avgRating = await reviews.getAverageRating(company);
+        let avgRating = await reviews.getAverageRating(company);
+        avgRating = avgRating.toFixed(1);
         let actionItem = "" + new Date() + ": Viewed " + company.name + "'s company profile.";
         const updateHistory = await traders.addTraderHistory(req.session.user._id, actionItem);
         let reviewsExist = (Math.round(avgRating) >= 1) ? true : false;
@@ -25,7 +26,8 @@ router.get('/:ticker', async (req, res) => {
             reviews: allReviews,
             reviewsExist: reviewsExist,
             loggedIn: true,
-            tickerExists: tickerExists
+            tickerExists: tickerExists,
+            avgRating: avgRating
         });
     } catch (e) {
         res.status(404).json({ error: e });
