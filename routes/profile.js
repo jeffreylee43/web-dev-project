@@ -73,7 +73,7 @@ router.post('/', async (req, res) => {
     }
     try {
         if (req.body.visitButton){
-            res.redirect('/profile/' + (req.body.visitButton)[0]);
+            res.redirect('/profile/' + req.body.visitButton);
         } else {
             res.redirect('/profile');
         }
@@ -88,7 +88,7 @@ router.post('/:email', async (req, res) => {
     }
     try {
         if (req.body.visitButton){
-            res.redirect('/profile/' + (req.body.visitButton)[0]);
+            res.redirect('/profile/' + req.body.visitButton);
         }  else if (req.body.followButton){
             let actionItem = "" + new Date() + ": Followed User: " + req.params.email + ".";
             const updateHistory = await traders.addTraderHistory(req.session.user._id, actionItem);

@@ -17,8 +17,8 @@
                     <h3 class="name">{{this.firstName}} {{this.lastName}}</h3>
                     <h4 class="title">{{this.email}}</h4>
                     <form method="POST">
-                        <input name="visitButton" type="hidden" value="{{this.email}}">
-                        <button type="submit" class="visit-button" name="visitButton">Visit Profile</button>
+                        {{!-- <input name="visitButton" type="hidden" value="{{this.email}}"> --}}
+                        <button type="submit" class="visit-button" name="visitButton" value="{{this.email}}">Visit Profile</button>
                     </form>
                     </div>
                 </div>
@@ -69,8 +69,8 @@
                     {{/if}}
                 
                 <form method="POST">
-                <input name="addButton" type="hidden" value="{{this.ticker}}">
-                <button type="submit" class="add-button" name="addButton">Add</button>
+                {{!-- <input name="addButton" type="hidden" value="{{this.ticker}}"> --}}
+                <button type="submit" class="add-button" name="addButton" value="{{this.ticker}}">Add</button>
                 </form>
             </div>
             {{/each}}
