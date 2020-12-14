@@ -40,7 +40,7 @@ router.get('/:email', async (req, res) => {
         return res.status(403).render('users/notLoggedIn', {title: "Not Logged In", loggedIn: false});
     }
     try {
-        const userInfo = await traders.getTraderByEmail(req.params.email);
+        const userInfo = await traders.getTraderByEmail(req.params.email.toLowerCase());
         const allReviews = await reviews.getAllReviewsTrader(userInfo);
         let reviewsExist = (allReviews.length > 0) ? true : false;
         const avgRating = await reviews.getAverageRatingTrader(userInfo);
@@ -48,7 +48,7 @@ router.get('/:email', async (req, res) => {
         let isMainUser = (req.session.user._id == userInfo._id) ? true : false;
         let isFollowing = (allFollowing.length > 0) ? true : false;
         let isPrivate = (userInfo.status == "private" && !isMainUser) ? true : false;
-        let alreadyFollowed = await traders.alreadyFollowed(req.session.user._id, req.params.email);
+        let alreadyFollowed = await traders.alreadyFollowed(req.session.user._id, req.params.email.toLowerCase());
         res.render('users/profile', {
             title: 'Profile',
             loggedIn: true,
@@ -90,15 +90,15 @@ router.post('/:email', async (req, res) => {
         if (req.body.visitButton){
             res.redirect('/profile/' + req.body.visitButton);
         }  else if (req.body.followButton){
-            let actionItem = "" + new Date() + ": Followed User: " + req.params.email + ".";
+            let actionItem = "" + new Date() + ": Followed User: " + req.params.email.toLowerCase() + ".";
             const updateHistory = await traders.addTraderHistory(req.session.user._id, actionItem);
-            const followUser = await traders.addFollowingArray(req.session.user._id, req.params.email);
-            res.redirect('/profile/' + req.params.email);
+            const followUser = await traders.addFollowingArray(req.session.user._id, req.params.email.toLowerCase());
+            res.redirect('/profile/' + req.params.email.toLowerCase());
         } else if (req.body.unfollowButton){
-            let actionItem = "" + new Date() + ": Unfollowed User: " + req.params.email + ".";
+            let actionItem = "" + new Date() + ": Unfollowed User: " + req.params.email.toLowerCase() + ".";
             const updateHistory = await traders.addTraderHistory(req.session.user._id, actionItem);
-            const unfollowUser = await traders.removeFollowingArray(req.session.user._id, req.params.email);
-            res.redirect('/profile/' + req.params.email);
+            const unfollowUser = await traders.removeFollowingArray(req.session.user._id, req.params.email.toLowerCase());
+            res.redirect('/profile/' + req.params.email.toLowerCase());
         } else {
             res.redirect('/profile');
         }

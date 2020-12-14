@@ -41,7 +41,7 @@ router.post('/', async (req, res) => {
         if (req.body.userInput){
             let errors = [];
             try {
-                let visitUser = await traders.getTraderByEmail(req.body.userInput);
+                let visitUser = await traders.getTraderByEmail(req.body.userInput.toLowerCase());
                 let emailExists = (!visitUser) ? false : true;
                 if (!emailExists){
                     errors.push("Error: Email not found.");
@@ -69,7 +69,7 @@ router.post('/', async (req, res) => {
                     allFollowing: allFollowing
                 });
             } else {
-                res.redirect('/profile/' + req.body.userInput);
+                res.redirect('/profile/' + req.body.userInput.toLowerCase());
             }
         } else if (req.body.visitButton){
             let userEmail = req.body.visitButton;
@@ -82,6 +82,23 @@ router.post('/', async (req, res) => {
             const updateHistory = await traders.addTraderHistory(req.session.user._id, actionItem);
             const addToDashBoard = await companies.addStockDashboard(req.session.user._id, company._id);
             res.redirect('/following');
+        } else if (!req.body.userInput) {
+            const userInfo = await traders.getTraderById(req.session.user._id);
+            let followingNotExists = (userInfo.followingArray.length > 0) ? false : true;
+            let mostPopularStocks = (!followingNotExists) ?  await traders.getMostPopularStocks(req.session.user._id) : [];
+            let commonStocksExist = (mostPopularStocks.length == 0) ? false : true;
+            const allFollowing = await traders.getFollowingTraders(userInfo._id);
+            return res.render('users/following', {
+                title: 'View Other Users',
+                loggedIn: true,
+                userInfo: userInfo,
+                allCompanies: mostPopularStocks,
+                commonStocksExist: commonStocksExist,
+                hasError: true,
+                errors: ["A non-empty email must be provided"],
+                followingNotExists: followingNotExists,
+                allFollowing: allFollowing
+            });
         } else {
             res.redirect('/following');
         }

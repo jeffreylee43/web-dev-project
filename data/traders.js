@@ -77,7 +77,7 @@ module.exports = {
     }, 
     
     async getTraderByEmail(email) {
-        if(!email) throw 'The email must be provided';
+        if(!email || email === "" || email.trim() === "") throw 'A non-empty email must be provided';
 
         const tradersCollection = await traders();
 
