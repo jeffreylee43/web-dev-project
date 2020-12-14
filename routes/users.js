@@ -1,4 +1,5 @@
 const express = require('express');
+const { stocks } = require('../config/mongoCollections');
 const router = express.Router();
 const data = require('../data');
 const companies = data.companies;
@@ -81,22 +82,22 @@ router.post('/dashboard', async (req, res) => {
     }
     try{
         if (req.body.searchTicker){
-            const search = (req.body.searchTicker).toUpperCase();
-            if (!req.body.searchTicker) {
-                res.status(404).render("../views/users/error",{title: "Error Found", searchTerm: search})
+            if (!req.body.searchTicker || req.body.searchTicker.trim() === "") {
+                res.status(404).render("../views/users/error",{title: "Error Found", searchTerm: search, loggedIn: true})
                 return;
             }
+            const search = (req.body.searchTicker).toUpperCase();
             const company = await companies.getAPICompany(search,apiKey)
             //Checking if search term is a valid ticker or not
             if(Object.keys(company).length === 0 && company.constructor === Object){
-                res.status(404).render("../views/users/error",{title: "Error Found", searchTerm: search})
+                res.status(404).render("../views/users/error",{title: "Error Found", searchTerm: search, loggedIn: true})
                 return;
             } else {
-                const companyExists = await companies.getCompany(company.ticker);
-                if (!companyExists){
-                    let company2 = await companies.addCompany(search);
+                try {
+                    let companyExists = await companies.getCompany(company.ticker);
                     res.redirect(`/companies/${search}`);
-                } else {
+                } catch (e){
+                    let company2 = await companies.addCompany(search);
                     res.redirect(`/companies/${search}`);
                 }
             }
@@ -108,7 +109,7 @@ router.post('/dashboard', async (req, res) => {
             }
             const traderCompanies = await traders.getTraderCompanies(req.session.user._id);
             res.render('users/dashboard', {
-                title: 'List of Stocks',
+                title: 'Your Dashboard',
                 loggedIn: true,
                 allCompanies: allSuggestions,
                 sugRequest: true,
@@ -131,12 +132,62 @@ router.post('/dashboard', async (req, res) => {
             const updateHistory = await traders.addTraderHistory(req.session.user._id, actionItem);
             const removeFromDashboard = await traders.removeTraderStock(req.session.user._id, stockTicker);
             res.redirect('/users/dashboard');
+        } else if (req.body.sortDashboard) {
+            let sort = req.body.sortDashboard;
+            const trader = await traders.getTraderById(req.session.user._id);
+            const stockArray = trader.stockArray;
+            let sortedArray = [];
+            let arrayToSort = [];
+
+            switch (sort) {
+                case 'name':
+                    for(let stockID of stockArray) {
+                        const stockInfo = await companies.getCompanyById(stockID);
+                        arrayToSort.push([stockID, stockInfo.name.toUpperCase()]);
+                    }
+                    sortedArray = arrayToSort.sort(function(a,b) {
+                         if(a[1] > b[1]) return 1;
+                         else if(a[1] < b[1]) return -1;
+                         else return 0;
+                    });
+                    break;
+                case 'price':
+                    for(let stockID of stockArray) {
+                        const stockInfo = await companies.getCompanyById(stockID);
+                        arrayToSort.push([stockID, stockInfo.price]);
+                    }
+                    sortedArray = arrayToSort.sort(function(a,b) { return a[1] - b[1] });
+                    break;
+                case 'rating':
+                    for(let stockID of stockArray) {
+                        const stockInfo = await companies.getCompanyById(stockID);
+                        arrayToSort.push([stockID, stockInfo.averageRating]);
+                    }
+                    sortedArray = arrayToSort.sort(function(a,b) { return b[1] - a[1] });
+                    break;
+            }
+
+            //Create final sorted array to push to handlebars
+            let sortedTraderCompanies = [];
+            for (let arr of sortedArray) {
+                //convert ObjectId in sortedArray to stringID
+                const stringId = arr[0].toString();
+                const company = await companies.getCompanyById(stringId);
+                sortedTraderCompanies.push(company);
+            }
+            return res.render('users/dashboard', {
+                title: 'Your Dashboard',
+                loggedIn: true,
+                traderCompanies: sortedTraderCompanies,
+            });
+        } else if (req.body.searchTicker === "" || req.body.searchTicker.trim() === ""){
+            return res.status(404).render("../views/users/error",{title: "Error Found", searchTerm: req.body.searchTicker, loggedIn: true});
         } else {
             res.redirect('/users/dashboard');
         }
     
     }catch (e){
-        res.status(404).render("../views/users/error",{title: "Error Found", searchTerm: "search"})
+        res.status(404).render("../views/users/error",{title: "Error Found", searchTerm: "search", loggedIn: true})
     }
 });
 module.exports = router;

@@ -1,12 +1,27 @@
 <div>
     <h1>Your Stocks Dashboard</h1>
-  <form action="/users/dashboard" method="POST">
-    <label>
-      Search for a ticker: 
-      <input type="text" name="searchTicker" placeholder="AAPL" class="full-width-input"/>
-      <button type="submit">Submit</button>
-    </label>
+    <form action="/users/dashboard" method="POST">
+        <label>
+        Search for a ticker: 
+        <input type="text" name="searchTicker" placeholder="AAPL" class="full-width-input"/>
+        </label>
+        <button type="submit">Submit</button>
     </form>
+
+    <div>
+        <form id="sortFormDashboard" method="POST">
+            <div class="stockMod">
+                <label for="sortDashboard">Sort By</label>
+                <select id="sortDashboard" name="sortDashboard">
+                    <option value="name">name</option>
+                    <option value="price">price</option>
+                    <option value="rating">rating</option>
+                </select>
+                {{!-- <input type="submit"> --}}
+                <button type ="submit">Sort</button>
+            </div>
+        </form>
+    </div>
     
     <div class="listLayout">
         {{#each traderCompanies}}

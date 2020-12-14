@@ -6,6 +6,8 @@ const saltRounds = 2;
 const { ObjectId } = require('mongodb');
 let path = require('path');
 let companies = require( path.resolve( __dirname, "./companies.js" ) );
+// const data = require('../data');
+// const companies = data.companies;
 
 module.exports = {
     async addNewTrader(firstName, lastName, email, gender, age, status, password) {
@@ -166,13 +168,34 @@ module.exports = {
         let objectId = new ObjectId(traderID);
         const trader1 = await tradersCollection.findOne({ _id: objectId });
 
-        let arr = [];
-        for(let id of trader1.stockArray) {
-            let company = await companies.getCompanyById(id);
-            arr.push(company);
+        // let arr = [];
+        // for(let id of trader1.stockArray) {
+        //     let company = await companies.getCompanyById(id);
+        //     arr.push(company);
+        // }
+        // return arr;
+
+        let sortedArray = [];
+        let arrayToSort = [];
+
+        for(let stockID of trader1.stockArray) {
+            const stockInfo = await companies.getCompanyById(stockID);
+            arrayToSort.push([stockID, stockInfo.name.toUpperCase()]);
         }
-        
-        return arr;
+        sortedArray = arrayToSort.sort(function(a,b) {
+                if(a[1] > b[1]) return 1;
+                else if(a[1] < b[1]) return -1;
+                else return 0;
+        });
+
+        let sortedTraderCompanies = [];
+        for (let arr of sortedArray) {
+            //convert ObjectId in sortedArray to stringID
+            const stringId = arr[0].toString();
+            const company = await companies.getCompanyById(stringId);
+            sortedTraderCompanies.push(company);
+        }
+        return sortedTraderCompanies;
     },
 
     async removeTraderStock(traderID, ticker){
