@@ -80,6 +80,7 @@ module.exports = {
             averageRating: null,
             ratingsArr: [],
             reviews: [],
+            description: `${name} is a company in the ${finnhubIndustry} industry, located in ${country}, and traded on ${exchange}`
         };
 
         const insertCompany = await stocksCollection.insertOne(newCompany);
@@ -195,6 +196,7 @@ module.exports = {
         updatedStocksData.averageRating = averageRating;
         updatedStocksData.ratingsArr = ratingsArr;
         updatedStocksData.reviews = gotCompany.reviews;
+        updatedStocksData.description = gotCompany.description;
 
         const updatedInfo = await stocksCollection.updateOne(
             { _id: objectId },

@@ -11,11 +11,11 @@
                 <div class="col-12 col-sm-6 col-md-4 col-lg-3">
                 <div class="our-team">
                     <div class="picture">
-                    <img class="img-fluid" src="https://www.drshaneholmes.com/wp-content/uploads/2020/03/146-1468479_my-profile-icon-blank-profile-picture-circle-hd.png">
+                    <img class="img-fluid" src="https://www.drshaneholmes.com/wp-content/uploads/2020/03/146-1468479_my-profile-icon-blank-profile-picture-circle-hd.png" alt="profile-image">
                     </div>
                     <div class="team-content">
-                    <h3 class="name">{{this.firstName}} {{this.lastName}}</h3>
-                    <h4 class="title">{{this.email}}</h4>
+                    <h2 class="name">{{this.firstName}} {{this.lastName}}</h2>
+                    <h3 class="title">{{this.email}}</h3>
                     <form method="POST">
                         {{!-- <input name="visitButton" type="hidden" value="{{this.email}}"> --}}
                         <button type="submit" class="visit-button" name="visitButton" value="{{this.email}}">Visit Profile</button>
@@ -29,7 +29,7 @@
 
     {{/if}}
     <br>
-    <h3>Search for New Users</h3>
+    <h2>Search for New Users</h2>
         <form method="POST" id="userInput">
         <label for="userInput" id="tickerInputLabel">Enter User Email: </label>
         <input type="text" id="userInput" name="userInput" minlength="4" placeholder="abc@gmail.com" class="full-width-input">
