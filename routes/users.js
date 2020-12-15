@@ -14,6 +14,7 @@ router.get('/dashboard', async (req, res) => {
     let actionItem = "" + new Date() + ": Viewed Dashboard.";
     const updateHistory = await traders.addTraderHistory(req.session.user._id, actionItem);
     const traderCompanies = await traders.getTraderCompanies(req.session.user._id);
+    //console.log(traderCompanies)
     res.render('users/dashboard', { 
         title: 'Your Dashboard', 
         loggedIn: true,
@@ -81,7 +82,6 @@ router.post('/dashboard/:email', async (req, res) => {
 
 //add to companies in the database
 
-//make it go to companies/AAPL
 router.post('/dashboard', async (req, res) => {
     if(!req.session.user) {
         return res.status(403).render('users/notLoggedIn', {title: "Not Logged In", loggedIn: false});
