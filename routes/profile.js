@@ -4,6 +4,7 @@ const data = require('../data');
 const companies = data.companies;
 const traders = data.traders;
 const reviews = data.reviews;
+const xss = require('xss');
 
 router.get('/', async (req, res) => {
     if(!req.session.user) {
@@ -73,7 +74,7 @@ router.post('/', async (req, res) => {
     }
     try {
         if (req.body.visitButton){
-            res.redirect('/profile/' + req.body.visitButton);
+            res.redirect('/profile/' + xss(req.body.visitButton));
         } else {
             res.redirect('/profile');
         }
@@ -88,7 +89,7 @@ router.post('/:email', async (req, res) => {
     }
     try {
         if (req.body.visitButton){
-            res.redirect('/profile/' + req.body.visitButton);
+            res.redirect('/profile/' + xss(req.body.visitButton));
         }  else if (req.body.followButton){
             let actionItem = "" + new Date() + ": Followed User: " + req.params.email.toLowerCase() + ".";
             const updateHistory = await traders.addTraderHistory(req.session.user._id, actionItem);

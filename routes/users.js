@@ -5,6 +5,7 @@ const data = require('../data');
 const companies = data.companies;
 const apiKey = "bu92bcn48v6t2erin5ig";
 const traders = data.traders;
+const xss = require('xss');
 
 router.get('/dashboard', async (req, res) => {
     if(!req.session.user) {
@@ -55,7 +56,7 @@ router.post('/dashboard/:email', async (req, res) => {
     }
     try{
         if (req.body.addButton){
-            let addInput = req.body.addButton;
+            let addInput = xss(req.body.addButton);
             let stockTicker = addInput[0];
             const company = await companies.getCompany(stockTicker);
             let actionItem = "" + new Date() + ": Added company " + company.name + " to Dashboard.";
@@ -87,11 +88,12 @@ router.post('/dashboard', async (req, res) => {
     }
     try{
         if (req.body.searchTicker){
+            const search = (xss(req.body.searchTicker)).toUpperCase();
             if (!req.body.searchTicker || req.body.searchTicker.trim() === "") {
                 res.status(404).render("../views/users/error",{title: "Error Found", searchTerm: search, loggedIn: true})
                 return;
             }
-            const search = (req.body.searchTicker).toUpperCase();
+            
             const company = await companies.getAPICompany(search,apiKey)
             //Checking if search term is a valid ticker or not
             if(Object.keys(company).length === 0 && company.constructor === Object){
@@ -122,7 +124,7 @@ router.post('/dashboard', async (req, res) => {
                 traderCompanies: traderCompanies
             });
         } else if (req.body.addButton) {
-            let addInput = req.body.addButton;
+            let addInput = xss(req.body.addButton);
             let stockTicker = addInput;
             const company = await companies.getCompany(stockTicker);
             let actionItem = "" + new Date() + ": Added company " + company.name + " to Dashboard.";
@@ -130,7 +132,7 @@ router.post('/dashboard', async (req, res) => {
             const addToDashBoard = await companies.addStockDashboard(req.session.user._id, company._id);
             res.redirect('/users/dashboard');
         } else if (req.body.removeButton) {
-            let removeInput = req.body.removeButton;
+            let removeInput = xss(req.body.removeButton);
             let stockTicker = removeInput;
             const company = await companies.getCompany(stockTicker);
             let actionItem = "" + new Date() + ": Removed company " + company.name + " from Dashboard.";
@@ -138,7 +140,7 @@ router.post('/dashboard', async (req, res) => {
             const removeFromDashboard = await traders.removeTraderStock(req.session.user._id, stockTicker);
             res.redirect('/users/dashboard');
         } else if (req.body.sortDashboard) {
-            let sort = req.body.sortDashboard;
+            let sort = xss(req.body.sortDashboard);
             const trader = await traders.getTraderById(req.session.user._id);
             const stockArray = trader.stockArray;
             let sortedArray = [];
@@ -186,7 +188,7 @@ router.post('/dashboard', async (req, res) => {
                 traderCompanies: sortedTraderCompanies,
             });
         } else if (req.body.searchTicker === "" || req.body.searchTicker.trim() === ""){
-            return res.status(404).render("../views/users/error",{title: "Error Found", searchTerm: req.body.searchTicker, loggedIn: true});
+            return res.status(404).render("../views/users/error",{title: "Error Found", searchTerm: xss(req.body.searchTicker), loggedIn: true});
         } else {
             res.redirect('/users/dashboard');
         }

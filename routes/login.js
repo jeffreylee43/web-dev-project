@@ -3,6 +3,7 @@ const router = express.Router();
 const data = require('../data');
 const traders = data.traders;
 const bcrypt = require('bcryptjs');
+const xss = require('xss');
 
 router.get('/', async (req, res) => {
     if(req.session.user) {
@@ -12,7 +13,9 @@ router.get('/', async (req, res) => {
 });
 
 router.post('/', async (req, res) => {
-    const {email, password} = req.body;
+    let {email, password} = req.body;
+    email = xss(email);
+    password = xss(password);
     let errors = [];
     const emailForCheck = email.toLowerCase();
 

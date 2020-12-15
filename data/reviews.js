@@ -96,7 +96,8 @@ module.exports = {
             output.push( rev );
         }
         if (output.length == 0){
-            return [{review: "Reviews will appear here. Be the first to enter a review for this stock!"}];
+            // return [{review: "Reviews will appear here. Be the first to enter a review for this stock!"}];
+            return -1;
         };
         return output;
     },
@@ -104,6 +105,9 @@ module.exports = {
     async getAverageRating(company){
         if(!company) throw 'You must provide a company to get the average rating of a company.';
         const allReviews = await this.getAllReviews(company);
+        if(allReviews === -1) {
+            return null;
+        }
         let avgRating = 0;
         for (let r in allReviews){
             avgRating += allReviews[r].rating;

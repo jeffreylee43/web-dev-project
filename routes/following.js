@@ -4,6 +4,8 @@ const data = require('../data');
 const companies = data.companies;
 const traders = data.traders;
 const reviews = data.reviews;
+const xss = require('xss');
+
 
 router.get('/', async (req, res) => {
     if(!req.session.user) {
@@ -41,7 +43,7 @@ router.post('/', async (req, res) => {
         if (req.body.userInput){
             let errors = [];
             try {
-                let visitUser = await traders.getTraderByEmail(req.body.userInput.toLowerCase());
+                let visitUser = await traders.getTraderByEmail(xss(req.body.userInput.toLowerCase()));
                 let emailExists = (!visitUser) ? false : true;
                 if (!emailExists){
                     errors.push("Error: Email not found.");
@@ -69,13 +71,13 @@ router.post('/', async (req, res) => {
                     allFollowing: allFollowing
                 });
             } else {
-                res.redirect('/profile/' + req.body.userInput.toLowerCase());
+                res.redirect('/profile/' + xss(req.body.userInput.toLowerCase()));
             }
         } else if (req.body.visitButton){
-            let userEmail = req.body.visitButton;
+            let userEmail = xss(req.body.visitButton);
             res.redirect('/profile/' + userEmail);
         } else if (req.body.addButton){
-            let addInput = req.body.addButton;
+            let addInput = xss(req.body.addButton);
             let stockTicker = addInput;
             const company = await companies.getCompany(stockTicker);
             let actionItem = "" + new Date() + ": Added company " + company.name + " to Dashboard.";

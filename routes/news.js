@@ -5,6 +5,7 @@ const companies = data.companies;
 const traders = data.traders;
 const reviews = data.reviews;
 const news = data.news;
+const xss = require('xss');
 
 router.get('/', async (req, res) => {
     if(!req.session.user) {
@@ -31,9 +32,9 @@ router.post('/', async (req, res) => {
         let bodyData = req.body;
         let actionItem = "" + new Date() + ": Viewed NewsFeed.";
         const updateHistory = await traders.addTraderHistory(req.session.user._id, actionItem);
-        const topNews = await news.getTopNews(bodyData.tickerInput);
+        const topNews = await news.getTopNews(xss(bodyData.tickerInput));
         res.render('news/news', {
-            title: "Results found for: " + "'" + bodyData.tickerInput + "'",
+            title: "Results found for: " + "'" + xss(bodyData.tickerInput) + "'",
             loggedIn: true,
             topNews: topNews
         });
