@@ -92,11 +92,11 @@ router.post('/dashboard', async (req, res) => {
                 res.status(404).render("../views/users/error",{title: "Error Found", searchTerm: search})
                 return;
             } else {
-                const companyExists = await companies.addCompany(company.ticker);
-                if (!companyExists){
-                    let company2 = await companies.addCompany(search);
+                try {
+                    let companyExists = await companies.getCompany(company.ticker);
                     res.redirect(`/companies/${search}`);
-                } else {
+                } catch (e){
+                    let company2 = await companies.addCompany(search);
                     res.redirect(`/companies/${search}`);
                 }
             }
