@@ -39,3 +39,6 @@ This project features a stocks dashboard. Users can login to their account and t
 -Users will be able to submit reviews for all other users to see.  
 -Users will be able to add the stock to their dashboard  
 -Provides the average rating out of 5 stars among all reviewers.  
+
+# Stock Suggestions Page:
+-Shows users a list of recommended stocks based on the ones that they have picked in their dashboard.
