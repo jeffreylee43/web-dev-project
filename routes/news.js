@@ -5,6 +5,7 @@ const companies = data.companies;
 const traders = data.traders;
 const reviews = data.reviews;
 const news = data.news;
+const xss = require('xss');
 
 router.get('/', async (req, res) => {
     if(!req.session.user) {

@@ -2,6 +2,8 @@ const express = require('express');
 const router = express.Router();
 const data = require('../data');
 const traders = data.traders;
+const xss = require('xss');
+const validator = require('email-validator');
 
 router.get('/', async (req, res) => {
     if(req.session.user) {
@@ -11,8 +13,20 @@ router.get('/', async (req, res) => {
 });
 
 router.post('/', async (req, res) => {
-    const {firstName, lastName, email, password, gender, status, age} = req.body;
-    const postData = req.body;
+    let {firstName, lastName, email, password, gender, status, age} = req.body;
+    let postData = req.body;
+    firstName = xss(firstName);
+    lastName = xss(lastName);
+    email = xss(email);
+    password = xss(password);
+    gender = xss(gender);
+    status = xss(status);
+    age = xss(age);
+    // postData = xss(postData);
+    let protectedPostData = {};
+    for (let property in postData) {
+        protectedPostData[`${property}`] = xss(postData[property]);
+    }
     let errors = [];
     const parsedAge = parseInt(age);
     const emailForCheck = email.toLowerCase();
@@ -25,6 +39,9 @@ router.post('/', async (req, res) => {
     }
     if(!email || email === "" || email.trim() === "") {
         errors.push("You did not provide your email address");
+    }
+    if(!validator.validate(email)) {
+        errors.push("You must provide a valid email address");
     }
     if(!password || password === "" || password.trim() === "") {
         errors.push("You did not provide your password");
@@ -42,10 +59,10 @@ router.post('/', async (req, res) => {
     try {
         const getTrader = await traders.getTraderByEmail(emailForCheck);
         errors.push("The provided email address is already in use.");
-        return res.status(401).render('users/register', {title: "Register", loggedIn: false, hasError: true, errors: errors, post: postData});
+        return res.status(401).render('users/register', {title: "Register", loggedIn: false, hasError: true, errors: errors, post: protectedPostData});
     } catch (e) {
         if(errors.length > 0) {
-            return res.status(401).render('users/register', {title: "Register", loggedIn: false, hasError: true, errors: errors, post: postData});
+            return res.status(401).render('users/register', {title: "Register", loggedIn: false, hasError: true, errors: errors, post: protectedPostData});
         }
         else {
             const newTrader = await traders.addNewTrader(firstName, lastName, emailForCheck, gender, parsedAge, status, password);

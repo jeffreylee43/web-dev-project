@@ -1,8 +1,12 @@
 <div>
     <div class="company-info">
         <h1>{{company.name}} ({{company.ticker}})</h1>
-        <img src="{{company.logo}}" alt="{{company.name}}" class="company-img">
-
+        {{!-- <img src="{{company.logo}}" alt="{{company.name}}" class="company-img"> --}}
+        {{#if company.logo.length}}
+        <img src="{{company.logo}}" alt="{{company.name}}" class="company-img">        
+        {{else}}
+        <img src="/public/img/no_image.jpeg" alt="{{company.name}}" class="company-img">
+        {{/if}}
         <p><span class="company-bold">Price:</span> {{company.price}}</p>
         <p><span class="company-bold">Country:</span> {{company.country}}</p>
         <p><span class="company-bold">Currency:</span> {{company.currency}}</p>
@@ -46,9 +50,9 @@
     <br>
     <div>
         <form method="POST" id="userReviews">
-        <label for="reviewVal" id="formLabel">Write Review: </label>
+        <label for="reviewVal" class="formLabel">Write Review: </label>
         <input type="text" id="reviewVal" name="reviewVal" minlength="5" required><br><br>
-        <label for="ratingVal" id="formLabel">Enter Rating (1-5): </label>
+        <label for="ratingVal" class="formLabel">Enter Rating (1-5): </label>
         <input type='number' id="ratingVal" name="ratingVal" min="1" max="5" required><br><br>
         <button type="submit">Submit Review</button>
         </form>

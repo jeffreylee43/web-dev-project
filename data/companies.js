@@ -9,12 +9,15 @@ const apiKey = 'bu92bcn48v6t2erin5ig';
 
 module.exports = {
     async getAPICompany(ticker, apiKey) {
+        if(!ticker || typeof ticker !== "string" || ticker === "" || ticker.trim() === "") throw 'You must provide a valid ticker.'
+        if(!apiKey) throw 'You must provide a valid apiKey.';
         const { data } = await axios.get(
             `https://finnhub.io/api/v1/stock/profile2?symbol=${ticker}&token=${apiKey}`
         );
         return data;
     },
     async getAPIAllCompanies(apiKey){
+        if(!apiKey) throw 'You must provide an apiKey.';
         const {data} = await axios.get(`https://finnhub.io/api/v1/stock/symbol?exchange=US&token=${apiKey}`);
         return data
     },
@@ -80,6 +83,7 @@ module.exports = {
             averageRating: null,
             ratingsArr: [],
             reviews: [],
+            description: `${name} is a company in the ${finnhubIndustry} industry, located in ${country}, and traded on ${exchange}`
         };
 
         const insertCompany = await stocksCollection.insertOne(newCompany);
@@ -144,6 +148,7 @@ module.exports = {
     },
 
     async updateCompany(ticker) {
+        if(!ticker || typeof ticker !== 'string' || ticker === "" || ticker.trim() === "") throw 'You must provide a valid ticker.';
         const gotCompany = await this.getCompany(ticker);
         if (!gotCompany) throw 'Company does not exist within database.';
 
@@ -195,6 +200,7 @@ module.exports = {
         updatedStocksData.averageRating = averageRating;
         updatedStocksData.ratingsArr = ratingsArr;
         updatedStocksData.reviews = gotCompany.reviews;
+        updatedStocksData.description = gotCompany.description;
 
         const updatedInfo = await stocksCollection.updateOne(
             { _id: objectId },
@@ -204,9 +210,13 @@ module.exports = {
     },
 
     async addStockDashboard(traderID, companyID) {
+        if(!traderID) throw 'You must provide a traderID.';
+        if(!companyID) throw 'You must provide a companyID.';
+
         const tradersCollection = await traders();
         let objectId = new ObjectID(traderID);
         const trader1 = await tradersCollection.findOne({ _id: objectId });
+        if(trader1 === null) throw 'There are no traders found with the provided id.';
         let updatedTraderData = {};
         let arr = trader1.stockArray;
         let isNewStock = true;
