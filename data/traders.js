@@ -91,6 +91,8 @@ module.exports = {
     },
 
     async addTraderHistory(id, actionItem){
+        if(!id) throw 'You must provide the trader id.';
+        if(!actionItem) throw 'You must provide an action item for the history.';
         const tradersCollection = await traders();
         let objectId = new ObjectId(id);
         const trader1 = await tradersCollection.findOne({ _id: objectId });
@@ -109,6 +111,7 @@ module.exports = {
     },
 
     async removeTraderHistory(id){
+        if(!id) throw 'You must provide an id for the trader.';
         const tradersCollection = await traders();
         let objectId = new ObjectId(id);
         const trader1 = await tradersCollection.findOne({ _id: objectId });
@@ -125,6 +128,8 @@ module.exports = {
     }, 
 
     async tickerExists(traderID, stockID){
+        if(!traderID) throw 'You must provide the trader id.';
+        if(!stockID) throw 'You must provide a stock id.';
         const tradersCollection = await traders();
         let objectId = new ObjectId(traderID);
         const trader1 = await tradersCollection.findOne({ _id: objectId });
@@ -138,6 +143,7 @@ module.exports = {
     }, 
 
     async getSuggestions(traderID){
+        if(!traderID) throw 'You must provide a trader id.';
         const tradersCollection = await traders();
         let objectId = new ObjectId(traderID);
         const trader1 = await tradersCollection.findOne({ _id: objectId });
@@ -164,6 +170,7 @@ module.exports = {
     },
 
     async getTraderCompanies(traderID){
+        if(!traderID) throw 'Must provide a trader id.';
         const tradersCollection = await traders();
         let objectId = new ObjectId(traderID);
         const trader1 = await tradersCollection.findOne({ _id: objectId });
@@ -199,6 +206,8 @@ module.exports = {
     },
 
     async removeTraderStock(traderID, ticker){
+        if(!traderID) throw 'Must provide a traderID.';
+        if(!ticker) throw 'Must provide a ticker.';
         const tradersCollection = await traders();
         let objectId = new ObjectId(traderID);
         const trader1 = await tradersCollection.findOne({ _id: objectId });
@@ -222,6 +231,8 @@ module.exports = {
     },
 
     async addFollowingArray(id, uniqueIndentifier){
+        if(!id) throw 'Must provide an id.';
+        if(!uniqueIndentifier) throw 'Must provide a unique identifier.';
         const tradersCollection = await traders();
         let objectId = new ObjectId(id);
         const trader1 = await tradersCollection.findOne({ _id: objectId });
@@ -248,6 +259,8 @@ module.exports = {
     },
 
     async removeFollowingArray(traderID, uniqueIndentifier){
+        if(!traderID) throw 'Must provide the id of trader.';
+        if(!uniqueIndentifier) throw 'Must provide a unique identifier.';
         const tradersCollection = await traders();
         let objectId = new ObjectId(traderID);
         const trader1 = await tradersCollection.findOne({ _id: objectId });
@@ -270,6 +283,7 @@ module.exports = {
     },
 
     async getMostPopularStocks(traderID){
+        if(!traderID) throw 'Must provide the id of the trader.';
         const tradersCollection = await traders();
         let objectId = new ObjectId(traderID);
         const trader1 = await tradersCollection.findOne({ _id: objectId });
@@ -296,6 +310,8 @@ module.exports = {
     },
 
     async alreadyFollowed(traderID, uniqueIndentifier){
+        if(!traderID) throw 'Must provide a trader id.';
+        if(!uniqueIndentifier) throw 'Must provide a unique identifier.';
         const tradersCollection = await traders();
         let objectId = new ObjectId(traderID);
         const trader1 = await tradersCollection.findOne({ _id: objectId });
@@ -310,6 +326,7 @@ module.exports = {
     },
 
     async getFollowingTraders(id){
+        if(!id) throw 'Must provide an id.';
         const tradersCollection = await traders();
         let objectId = new ObjectId(id);
         const trader1 = await tradersCollection.findOne({ _id: objectId });
