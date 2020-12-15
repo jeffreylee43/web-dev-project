@@ -27,20 +27,10 @@ router.get('/', async (req, res) => {
 
 router.post('/', async (req, res) => {
     try {
-        // Gets Specific News
-
-        //We probably only need to update the trader history everytime they post to News
+        //Storing History
         let bodyData = req.body;
         let actionItem = "" + new Date() + ": Viewed NewsFeed.";
         const updateHistory = await traders.addTraderHistory(req.session.user._id, actionItem);
-
-
-        // const topNews = await news.getTopNews(bodyData.tickerInput);
-        // res.render('news/news', {
-        //     title: "Results found for: " + "'" + bodyData.tickerInput + "'",
-        //     loggedIn: true,
-        //     topNews: topNews
-        // });
     } catch (e) {
         res.status(404).json({ message: e });
     }
