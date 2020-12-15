@@ -24,6 +24,11 @@ router.get('/dashboard/:email', async (req, res) => {
     if(!req.session.user) {
         return res.status(403).render('users/notLoggedIn', {title: "Not Logged In", loggedIn: false});
     }
+    try{
+        const emailcheck = await traders.getTraderByEmail(req.params.email);
+    } catch (e) {
+        return res.sendStatus(404);
+    }
     const trader1 = await traders.getTraderById(req.session.user._id);
     const trader2Info = await traders.getTraderByEmail(req.params.email);
     const traderCompanies = await traders.getTraderCompanies(trader2Info._id);
@@ -69,7 +74,7 @@ router.post('/dashboard/:email', async (req, res) => {
             res.redirect('/users/dashboard/' + req.params.email);
         }
     }catch (e){
-        res.status(404).render("../views/users/error",{title: "Error Found", searchTerm: "Stock"})
+        res.status(404).render("../views/users/error",{title: "Error Found", searchTerm: "Stock", loggedIn: true})
     }
 });
 
