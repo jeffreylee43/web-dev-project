@@ -9,7 +9,6 @@ router.get('/dashboard', async (req, res) => {
     if(!req.session.user) {
         return res.status(403).render('users/notLoggedIn', {title: "Not Logged In", loggedIn: false});
     }
-    console.log("hi")
     let actionItem = "" + new Date() + ": Viewed Dashboard.";
     const updateHistory = await traders.addTraderHistory(req.session.user._id, actionItem);
     const traderCompanies = await traders.getTraderCompanies(req.session.user._id);
@@ -93,7 +92,7 @@ router.post('/dashboard', async (req, res) => {
                 res.status(404).render("../views/users/error",{title: "Error Found", searchTerm: search})
                 return;
             } else {
-                const companyExists = await companies.getCompany(company.ticker);
+                const companyExists = await companies.addCompany(company.ticker);
                 if (!companyExists){
                     let company2 = await companies.addCompany(search);
                     res.redirect(`/companies/${search}`);
