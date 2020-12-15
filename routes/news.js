@@ -32,12 +32,6 @@ router.post('/', async (req, res) => {
         let bodyData = req.body;
         let actionItem = "" + new Date() + ": Viewed NewsFeed.";
         const updateHistory = await traders.addTraderHistory(req.session.user._id, actionItem);
-        const topNews = await news.getTopNews(xss(bodyData.tickerInput));
-        res.render('news/news', {
-            title: "Results found for: " + "'" + xss(bodyData.tickerInput) + "'",
-            loggedIn: true,
-            topNews: topNews
-        });
     } catch (e) {
         res.status(404).json({ message: e });
     }
