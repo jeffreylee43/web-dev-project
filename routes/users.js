@@ -82,7 +82,7 @@ router.post('/dashboard/:email', async (req, res) => {
 //add to companies in the database
 
 router.post('/dashboard', async (req, res) => {
-    if(!xss(req.session.user)) {
+    if(!req.session.user) {
         return res.status(403).render('users/notLoggedIn', {title: "Not Logged In", loggedIn: false});
     }
     try{
