@@ -25,12 +25,7 @@
     <p>{{userInfo.email}}</p>
     <p>Age: {{userInfo.age}}</p>
     <p class="title1">({{userInfo.status}})</p>
-    {{!-- <div style="margin: 24px 0;">
-        <a class='a1' href="#"><i class="fa fa-dribbble"></i></a> 
-        <a class='a1' href="#"><i class="fa fa-twitter"></i></a>  
-        <a class='a1' href="#"><i class="fa fa-linkedin"></i></a>  
-        <a class='a1' href="#"><i class="fa fa-facebook"></i></a> 
-    </div> --}}
+    
     {{#if isPrivate}}
     <p><button class='button1' type="button">Private DashBoard</button></p>
     {{else}}
@@ -41,10 +36,10 @@
     <div>
         {{#if reviewsExist}}
             <div id='reviews'>
-                <h3>Average Rating Given: {{avgRating}}/5 </h3>
+                <h2>Average Rating Given: {{avgRating}}/5 </h2>
                 <br>
                 {{#each allReviews}}
-                    <h4>{{this.companyName}}, User Rating: {{#each this.ratingsArr}} <span class="fa fa-star checked"></span> {{/each}}</h4>
+                    <h3>{{this.companyName}}, User Rating: {{#each this.ratingsArr}} <span class="fa fa-star checked"></span> {{/each}}</h3>
                     <p>
                         {{this.date}}
                     <p> 
