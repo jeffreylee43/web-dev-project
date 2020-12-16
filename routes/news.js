@@ -29,7 +29,6 @@ router.get('/', async (req, res) => {
 router.post('/', async (req, res) => {
     try {
         //Storing History
-        let bodyData = req.body;
         let actionItem = "" + new Date() + ": Viewed NewsFeed.";
         const updateHistory = await traders.addTraderHistory(req.session.user._id, actionItem);
     } catch (e) {

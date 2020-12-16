@@ -56,19 +56,19 @@ router.post('/dashboard/:email', async (req, res) => {
         return res.status(403).render('users/notLoggedIn', {title: "Not Logged In", loggedIn: false});
     }
     try{
-        if (req.body.addButton){
+        if (xss(req.body.addButton)){
             let stockTicker = xss(req.body.addButton);
             const company = await companies.getCompany(stockTicker);
             let actionItem = "" + new Date() + ": Added company " + company.name + " to Dashboard.";
             const updateHistory = await traders.addTraderHistory(req.session.user._id, actionItem);
             const addToDashBoard = await companies.addStockDashboard(req.session.user._id, company._id);
             res.redirect('/users/dashboard/' + req.params.email);
-        } else if (req.body.followButton){
+        } else if (xss(req.body.followButton)){
             let actionItem = "" + new Date() + ": Followed User: " + req.params.email + ".";
             const updateHistory = await traders.addTraderHistory(req.session.user._id, actionItem);
             const followUser = await traders.addFollowingArray(req.session.user._id, req.params.email);
             res.redirect('/users/dashboard/' + req.params.email);
-        } else if (req.body.unfollowButton){
+        } else if (xss(req.body.unfollowButton)){
             let actionItem = "" + new Date() + ": Unfollowed User: " + req.params.email + ".";
             const updateHistory = await traders.addTraderHistory(req.session.user._id, actionItem);
             const unfollowUser = await traders.removeFollowingArray(req.session.user._id, req.params.email);
@@ -82,13 +82,13 @@ router.post('/dashboard/:email', async (req, res) => {
 //add to companies in the database
 
 router.post('/dashboard', async (req, res) => {
-    if(!req.session.user) {
+    if(!xss(req.session.user)) {
         return res.status(403).render('users/notLoggedIn', {title: "Not Logged In", loggedIn: false});
     }
     try{
-        if (req.body.searchTicker){
+        if (xss(req.body.searchTicker)){
             const search = (xss(req.body.searchTicker)).toUpperCase();
-            if (!req.body.searchTicker || req.body.searchTicker.trim() === "") {
+            if (!xss(req.body.searchTicker) || xss(req.body.searchTicker).trim() === "") {
                 res.status(404).render("../views/users/error",{title: "Error Found", searchTerm: search, loggedIn: true})
                 return;
             }
@@ -107,7 +107,7 @@ router.post('/dashboard', async (req, res) => {
                     res.redirect(`/companies/${search}`);
                 }
             }
-        } else if (req.body.showSug) {
+        } else if (xss(req.body.showSug)) {
             const allSuggestions = await traders.getSuggestions(req.session.user._id);
             let noSuggestions = false;
             if(allSuggestions.length === 0) {
@@ -122,21 +122,21 @@ router.post('/dashboard', async (req, res) => {
                 noSuggestions: noSuggestions,
                 traderCompanies: traderCompanies
             });
-        } else if (req.body.addButton) {
+        } else if (xss(req.body.addButton)) {
             let stockTicker = xss(req.body.addButton);
             const company = await companies.getCompany(stockTicker);
             let actionItem = "" + new Date() + ": Added company " + company.name + " to Dashboard.";
             const updateHistory = await traders.addTraderHistory(req.session.user._id, actionItem);
             const addToDashBoard = await companies.addStockDashboard(req.session.user._id, company._id);
             res.redirect('/users/dashboard');
-        } else if (req.body.removeButton) {
+        } else if (xss(req.body.removeButton)) {
             let stockTicker = xss(req.body.removeButton);
             const company = await companies.getCompany(stockTicker);
             let actionItem = "" + new Date() + ": Removed company " + company.name + " from Dashboard.";
             const updateHistory = await traders.addTraderHistory(req.session.user._id, actionItem);
             const removeFromDashboard = await traders.removeTraderStock(req.session.user._id, stockTicker);
             res.redirect('/users/dashboard');
-        } else if (req.body.sortDashboard) {
+        } else if (xss(req.body.sortDashboard)) {
             let sort = xss(req.body.sortDashboard);
             const trader = await traders.getTraderById(req.session.user._id);
             const stockArray = trader.stockArray;
@@ -184,7 +184,7 @@ router.post('/dashboard', async (req, res) => {
                 loggedIn: true,
                 traderCompanies: sortedTraderCompanies,
             });
-        } else if (req.body.searchTicker === "" || req.body.searchTicker.trim() === ""){
+        } else if (xss(req.body.searchTicker) === "" || xss(req.body.searchTicker).trim() === ""){
             return res.status(404).render("../views/users/error",{title: "Error Found", searchTerm: xss(req.body.searchTicker), loggedIn: true});
         } else {
             res.redirect('/users/dashboard');

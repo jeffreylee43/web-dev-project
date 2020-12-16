@@ -41,7 +41,7 @@ router.post('/:ticker', async (req, res) => {
     try {
         let bodyData = req.body;
         const company = await companies.getCompany(req.params.ticker);
-        if (bodyData.ratingVal){
+        if (xss(bodyData.ratingVal)){
             const review = await reviews.addReview(xss(bodyData.reviewVal), xss(bodyData.ratingVal), company._id, req.session.user._id);
             let actionItem = "" + review.date + ": Added review to " + company.name + " and gave it a " + review.rating + " star rating.";
             const updateHistory = await traders.addTraderHistory(req.session.user._id, actionItem);

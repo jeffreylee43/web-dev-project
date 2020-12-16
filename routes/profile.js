@@ -73,7 +73,7 @@ router.post('/', async (req, res) => {
         return res.status(403).render('users/notLoggedIn', {title: "Not Logged In", loggedIn: false});
     }
     try {
-        if (req.body.visitButton){
+        if (xss(req.body.visitButton)){
             res.redirect('/profile/' + xss(req.body.visitButton));
         } else {
             res.redirect('/profile');
@@ -88,14 +88,14 @@ router.post('/:email', async (req, res) => {
         return res.status(403).render('users/notLoggedIn', {title: "Not Logged In", loggedIn: false});
     }
     try {
-        if (req.body.visitButton){
+        if (xss(req.body.visitButton)){
             res.redirect('/profile/' + xss(req.body.visitButton));
-        }  else if (req.body.followButton){
+        }  else if (xss(req.body.followButton)){
             let actionItem = "" + new Date() + ": Followed User: " + req.params.email.toLowerCase() + ".";
             const updateHistory = await traders.addTraderHistory(req.session.user._id, actionItem);
             const followUser = await traders.addFollowingArray(req.session.user._id, req.params.email.toLowerCase());
             res.redirect('/profile/' + req.params.email.toLowerCase());
-        } else if (req.body.unfollowButton){
+        } else if (xss(req.body.unfollowButton)){
             let actionItem = "" + new Date() + ": Unfollowed User: " + req.params.email.toLowerCase() + ".";
             const updateHistory = await traders.addTraderHistory(req.session.user._id, actionItem);
             const unfollowUser = await traders.removeFollowingArray(req.session.user._id, req.params.email.toLowerCase());
