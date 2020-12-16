@@ -40,7 +40,7 @@ router.post('/', async (req, res) => {
     try {
         const userInfo = await traders.getTraderById(req.session.user._id);
         let followingNotExists = (userInfo.followingArray.length > 0) ? false : true;
-        if (req.body.userInput){
+        if (xss(req.body.userInput)){
             let errors = [];
             try {
                 let visitUser = await traders.getTraderByEmail(xss(req.body.userInput.toLowerCase()));
@@ -73,10 +73,10 @@ router.post('/', async (req, res) => {
             } else {
                 res.redirect('/profile/' + xss(req.body.userInput.toLowerCase()));
             }
-        } else if (req.body.visitButton){
+        } else if (xss(req.body.visitButton)){
             let userEmail = xss(req.body.visitButton);
             res.redirect('/profile/' + userEmail);
-        } else if (req.body.addButton){
+        } else if (xss(req.body.addButton)){
             let addInput = xss(req.body.addButton);
             let stockTicker = addInput;
             const company = await companies.getCompany(stockTicker);
@@ -84,7 +84,7 @@ router.post('/', async (req, res) => {
             const updateHistory = await traders.addTraderHistory(req.session.user._id, actionItem);
             const addToDashBoard = await companies.addStockDashboard(req.session.user._id, company._id);
             res.redirect('/following');
-        } else if (!req.body.userInput) {
+        } else if (!xss(req.body.userInput)) {
             const userInfo = await traders.getTraderById(req.session.user._id);
             let followingNotExists = (userInfo.followingArray.length > 0) ? false : true;
             let mostPopularStocks = (!followingNotExists) ?  await traders.getMostPopularStocks(req.session.user._id) : [];
