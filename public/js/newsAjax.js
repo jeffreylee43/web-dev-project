@@ -19,6 +19,7 @@ $(document).ready(() => {
                 </div>`
                 $(".top-news-div").append(article);
                 })
+                $('#myHeader').empty();
                 let header = `Results for: ${$('#newsTerm').val()} `
                 $('#myHeader').append(header)
                 if(data.articles.length == 0){

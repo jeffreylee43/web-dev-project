@@ -64,6 +64,17 @@ module.exports = {
         let arr = company1.reviews;
         arr.push(newId);
         updatedCompanyData.reviews = arr;
+        let averageRating = await this.getAverageRating(company1);
+
+        let temprating2 = Math.round(averageRating);
+        let ratingsArr2 = [];
+        while (temprating2 > 0) {
+            ratingsArr2.push('1');
+            temprating2--;
+        }
+        updatedCompanyData.averageRating = averageRating;
+        updatedCompanyData.ratingsArr = ratingsArr2;
+
         const updatedInfo = await companiesCollection.updateOne(
             { _id: objectId },
             { $set: updatedCompanyData }
