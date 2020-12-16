@@ -19,8 +19,7 @@
                     {{this.name}} ({{this.ticker}})
                 </a>
                 <form method="POST">
-                    <input name="addButton" type="hidden" value="{{this.ticker}}">
-                    <button type="submit" class="add-button" name="addButton">Add</button>
+                    <button type="submit" class="add-button" name="addButton" value="{{this.ticker}}">Add</button>
                 </form>
                 {{#if this.increased}}
                 <p>Price: {{this.price}} <span class="greenStock">+{{this.change}} ({{this.percentIncrease}}%)</span></p>
