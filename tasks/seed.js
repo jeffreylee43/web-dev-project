@@ -105,29 +105,18 @@ const main = async () => {
     let trader8stocks3 = await companies.addStockDashboard(trader8._id, company25._id);
     let trader8stocks4 = await companies.addStockDashboard(trader8._id, company1._id);
 
-    let following1 = await traders.addFollowingArray(trader1._id, "bhardway@stevens.edu");
-    let following2 = await traders.addFollowingArray(trader1._id, "klee@stevens.edu");
-    let following3 = await traders.addFollowingArray(trader1._id, "mscott@stevens.edu");
-    let following4 = await traders.addFollowingArray(trader1._id, "klim@stevens.edu");
-    let following5 = await traders.addFollowingArray(trader1._id, "rpatel@stevens.edu");
     let following6 = await traders.addFollowingArray(trader1._id, "jslang@stevens.edu");
     let following7 = await traders.addFollowingArray(trader1._id, "jlake@stevens.edu");
+    let following2 = await traders.addFollowingArray(trader1._id, "bhardway@stevens.edu");
 
-    let following8 = await traders.addFollowingArray(trader2._id, "klim@stevens.edu");
-    let following9 = await traders.addFollowingArray(trader2._id, "rpatel@stevens.edu");
     let following10 = await traders.addFollowingArray(trader2._id, "jslang@stevens.edu");
-    let following11 = await traders.addFollowingArray(trader2._id, "jlake@stevens.edu");
 
-    let following12 = await traders.addFollowingArray(trader3._id, "mscott@stevens.edu");
-    let following13 = await traders.addFollowingArray(trader3._id, "klim@stevens.edu");
-    let following14 = await traders.addFollowingArray(trader3._id, "rpatel@stevens.edu");
     let following15 = await traders.addFollowingArray(trader3._id, "jslang@stevens.edu");
+    let following3 = await traders.addFollowingArray(trader1._id, "jlake@stevens.edu");
 
     let following16 = await traders.addFollowingArray(trader4._id, "bhardway@stevens.edu");
-    let following17 = await traders.addFollowingArray(trader4._id, "klee@stevens.edu");
-    let following18 = await traders.addFollowingArray(trader4._id, "mscott@stevens.edu");
+    let following4 = await traders.addFollowingArray(trader1._id, "jlake@stevens.edu");
 
-    let following19 = await traders.addFollowingArray(trader5._id, "rpatel@stevens.edu");
     let following20 = await traders.addFollowingArray(trader5._id, "jslang@stevens.edu");
     let following21 = await traders.addFollowingArray(trader5._id, "jlake@stevens.edu");
 
