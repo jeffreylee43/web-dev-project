@@ -23,12 +23,12 @@
     <p>{{userInfo.email}}</p>
     <p>Age: {{userInfo.age}}</p>
     <p class="title1">({{userInfo.status}})</p>
-    <div style="margin: 24px 0;">
+    {{!-- <div style="margin: 24px 0;">
         <a class='a1' href="#"><i class="fa fa-dribbble"></i></a> 
         <a class='a1' href="#"><i class="fa fa-twitter"></i></a>  
         <a class='a1' href="#"><i class="fa fa-linkedin"></i></a>  
         <a class='a1' href="#"><i class="fa fa-facebook"></i></a> 
-    </div>
+    </div> --}}
     {{#if isPrivate}}
     <p><button class='button1' type="button">Private DashBoard</button></p>
     {{else}}
@@ -53,7 +53,7 @@
                 {{/each}}
             </div>
         {{else}} 
-        <h3>Reviews</h3>
+        <h2>Reviews</h2>
         <p>Reviews will be shown here. {{userInfo.firstName}} has not yet written a review!</p>
         {{/if}}
     </div>

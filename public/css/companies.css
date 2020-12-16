@@ -1,3 +1,7 @@
+a {
+    color: #0058ba;
+}
+
 .listLayout {
     display: flex;
 	flex-wrap: wrap;
@@ -13,16 +17,16 @@
     border-radius: 10px;
 }
 
-/* .companyBox:hover {
-    background-color: lightblue;
+/* .companyBox:hover > .stock-description {
+    display: block;
 } */
 
 .greenStock {
-    color: #34a853;
+    color: #006b00;
 }
 
 .redStock {
-    color: #d93025;
+    color: #b61500;
 }
 
 .add-button {
@@ -51,4 +55,9 @@
 
 .company-bold {
     font-weight: bold;
+}
+
+.stock-description {
+    /* display: none; */
+    font-size: small;
 }

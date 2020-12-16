@@ -25,6 +25,10 @@ module.exports = {
         return review;
     },
     async addReview(reviewpost, rating, companyID, traderID) {
+        if(!reviewpost) throw 'You must provide a review post.';
+        if(!rating) throw 'You must provide a rating';
+        if(!companyID) throw 'You must provide a companyID';
+        if(!traderID) throw 'You must provide a traderID';
         let date = new Date();
         let temprating = rating;
         let ratingsArr = [];
@@ -84,6 +88,7 @@ module.exports = {
     },
 
     async getAllReviews(company){
+        if(!company) throw 'You must provide a company to get all reviews of a company.';
         let output = [];
         let allReviews = company.reviews;
         for (let r in allReviews){
@@ -91,13 +96,18 @@ module.exports = {
             output.push( rev );
         }
         if (output.length == 0){
-            return [{review: "Reviews will appear here. Be the first to enter a review for this stock!"}];
+            // return [{review: "Reviews will appear here. Be the first to enter a review for this stock!"}];
+            return -1;
         };
         return output;
     },
     
     async getAverageRating(company){
+        if(!company) throw 'You must provide a company to get the average rating of a company.';
         const allReviews = await this.getAllReviews(company);
+        if(allReviews === -1) {
+            return null;
+        }
         let avgRating = 0;
         for (let r in allReviews){
             avgRating += allReviews[r].rating;
@@ -106,6 +116,7 @@ module.exports = {
     },
 
     async getAllReviewsTrader(trader){
+        if(!trader) throw 'You must provide a trader.';
         let output = [];
         let allReviews = trader.reviewArray;
         for (let r in allReviews){
@@ -120,6 +131,7 @@ module.exports = {
     },
 
     async getAverageRatingTrader(trader){
+        if(!trader) throw 'You must provide a trader.';
         const allReviews = await this.getAllReviewsTrader(trader);
         let avgRating = 0;
         for (let r in allReviews){

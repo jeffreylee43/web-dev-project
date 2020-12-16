@@ -5,6 +5,7 @@ const companies = data.companies;
 const traders = data.traders;
 const mongoCollections = require('../config/mongoCollections');
 const stocks = mongoCollections.stocks;
+const xss = require('xss');
 
 router.get('/stocksList', async (req, res) => {
     if (!req.session.user) {
@@ -55,14 +56,14 @@ router.post('/stocksList', async (req, res) => {
             actionItem
         );
         if (req.body.addButton){
-            let stockTicker = req.body.addButton;
+            let stockTicker = xss(req.body.addButton);
             const company = await companies.getCompany(stockTicker);
             let actionItem = "" + new Date() + ": Added company " + company.name + " to Dashboard.";
             const updateHistory = await traders.addTraderHistory(req.session.user._id, actionItem);
             const addToDashBoard = await companies.addStockDashboard(req.session.user._id, company._id);
             res.redirect('/stocks/stocksList');
         } else {
-            let sort = req.body.sort;
+            let sort = xss(req.body.sort);
             const stocksCollection = await stocks();
             let stocksList;
             switch (sort) {
@@ -81,7 +82,7 @@ router.post('/stocksList', async (req, res) => {
                 case 'rating':
                     stocksList = await stocksCollection
                         .find({})
-                        .sort({ averageRating: 1 })
+                        .sort({ averageRating: -1 })
                         .toArray();
                     break;
             }
