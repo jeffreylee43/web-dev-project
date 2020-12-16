@@ -17,7 +17,6 @@
                     <h2 class="name">{{this.firstName}} {{this.lastName}}</h2>
                     <h3 class="title">{{this.email}}</h3>
                     <form method="POST">
-                        {{!-- <input name="visitButton" type="hidden" value="{{this.email}}"> --}}
                         <button type="submit" class="visit-button" name="visitButton" value="{{this.email}}">Visit Profile</button>
                     </form>
                     </div>
@@ -30,7 +29,7 @@
     {{/if}}
     <br>
     <h2>Search for New Users</h2>
-        <form method="POST" id="userInput">
+        <form method="POST" id="userInput-form">
         <label for="userInput" id="tickerInputLabel">Enter User Email: </label>
         <input type="text" id="userInput" name="userInput" minlength="4" placeholder="abc@gmail.com" class="full-width-input">
         <button type="submit">Search</button>
@@ -69,7 +68,6 @@
                     {{/if}}
                 
                 <form method="POST">
-                {{!-- <input name="addButton" type="hidden" value="{{this.ticker}}"> --}}
                 <button type="submit" class="add-button" name="addButton" value="{{this.ticker}}">Add</button>
                 </form>
             </div>

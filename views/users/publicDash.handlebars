@@ -3,13 +3,11 @@
     <br>
     {{#if alreadyFollowed}}
     <form method="POST">
-        <input name="unfollowButton" type="hidden" value={{traderEmail}}>
-        <button type="submit" class="unfollow-button" name="unfollowButton">Unfollow User</button>
+        <button type="submit" class="unfollow-button" name="unfollowButton" value="1">Unfollow User</button>
     </form>
     {{else}}
     <form method="POST">
-        <input name="followButton" type="hidden" value={{traderEmail}}>
-        <button type="submit" class="follow-button" name="followButton">Follow User</button>
+        <button type="submit" class="follow-button" name="followButton" value="2">Follow User</button>
     </form>
     {{/if}}
 
@@ -21,8 +19,7 @@
                     {{this.name}} ({{this.ticker}})
                 </a>
                 <form method="POST">
-                    <input name="addButton" type="hidden" value="{{this.ticker}}">
-                    <button type="submit" class="add-button" name="addButton">Add</button>
+                    <button type="submit" class="add-button" name="addButton" value="{{this.ticker}}">Add</button>
                 </form>
                 {{#if this.increased}}
                 <p>Price: {{this.price}} <span class="greenStock">+{{this.change}} ({{this.percentIncrease}}%)</span></p>

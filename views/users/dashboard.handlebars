@@ -62,8 +62,8 @@
     {{else}}
     <div>
       <form method="POST" id="sugButton">
-        {{!-- <input id="showSug" name="showSug" type="hidden" value="showSug"> --}}
-      <button type="submit" name="showSug" value = "showSug">Show Suggestions</button>
+      <button id="showSug" type="submit" name="showSug" value="showSug">Show Suggestions</button>
+      </form>
     </div>
     {{/if}}
     
@@ -89,7 +89,6 @@
                     {{/if}}
                 
                 <form method="POST">
-                {{!-- <input name="addButton" type="hidden" value="{{this.ticker}}"> --}}
                 <button type="submit" class="add-button" name="addButton" value="{{this.ticker}}">Add</button>
                 </form>
             </div>

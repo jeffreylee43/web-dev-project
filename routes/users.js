@@ -57,8 +57,7 @@ router.post('/dashboard/:email', async (req, res) => {
     }
     try{
         if (req.body.addButton){
-            let addInput = xss(req.body.addButton);
-            let stockTicker = addInput[0];
+            let stockTicker = xss(req.body.addButton);
             const company = await companies.getCompany(stockTicker);
             let actionItem = "" + new Date() + ": Added company " + company.name + " to Dashboard.";
             const updateHistory = await traders.addTraderHistory(req.session.user._id, actionItem);
@@ -124,16 +123,14 @@ router.post('/dashboard', async (req, res) => {
                 traderCompanies: traderCompanies
             });
         } else if (req.body.addButton) {
-            let addInput = xss(req.body.addButton);
-            let stockTicker = addInput;
+            let stockTicker = xss(req.body.addButton);
             const company = await companies.getCompany(stockTicker);
             let actionItem = "" + new Date() + ": Added company " + company.name + " to Dashboard.";
             const updateHistory = await traders.addTraderHistory(req.session.user._id, actionItem);
             const addToDashBoard = await companies.addStockDashboard(req.session.user._id, company._id);
             res.redirect('/users/dashboard');
         } else if (req.body.removeButton) {
-            let removeInput = xss(req.body.removeButton);
-            let stockTicker = removeInput;
+            let stockTicker = xss(req.body.removeButton);
             const company = await companies.getCompany(stockTicker);
             let actionItem = "" + new Date() + ": Removed company " + company.name + " from Dashboard.";
             const updateHistory = await traders.addTraderHistory(req.session.user._id, actionItem);
