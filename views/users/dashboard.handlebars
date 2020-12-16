@@ -24,8 +24,7 @@
                 {{this.name}} ({{this.ticker}})
             </a>
             <form method="POST">
-                <input name="removeButton" type="hidden" value="{{this.ticker}}">
-                <button type="submit" class="remove-button" name="removeButton">Remove</button>
+                <button type="submit" class="remove-button" name="removeButton" value="{{this.ticker}}">Remove</button>
             </form>
             {{#if this.increased}}
             <p>Price: {{this.price}} <span class="greenStock">+{{this.change}} ({{this.percentIncrease}}%)</span></p>
@@ -49,8 +48,8 @@
     {{else}}
     <div>
       <form method="POST" id="sugButton">
-        <input id="showSug" name="showSug" type="hidden" value="showSug">
-      <button type="submit" name="sugShowButton">Show Suggestions</button>
+      <button id="showSug" type="submit" name="showSug" value="showSug">Show Suggestions</button>
+      </form>
     </div>
     {{/if}}
     
@@ -76,8 +75,7 @@
                     {{/if}}
                 
                 <form method="POST">
-                <input name="addButton" type="hidden" value="{{this.ticker}}">
-                <button type="submit" class="add-button" name="addButton">Add</button>
+                <button type="submit" class="add-button" name="addButton" value="{{this.ticker}}">Add</button>
                 </form>
             </div>
             {{/each}}

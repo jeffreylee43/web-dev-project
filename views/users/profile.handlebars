@@ -5,13 +5,11 @@
     <h1> {{userInfo.firstName}} {{userInfo.lastName}}'s Profile</h1>
         {{#if alreadyFollowed}}
         <form method="POST">
-            <input name="unfollowButton" type="hidden" value={{traderEmail}}>
-            <button type="submit" class="unfollow-button" name="unfollowButton">Unfollow User</button>
+            <button type="submit" class="unfollow-button" name="unfollowButton" value="1">Unfollow User</button>
         </form>
         {{else}}
         <form method="POST">
-            <input name="followButton" type="hidden" value={{traderEmail}}>
-            <button type="submit" class="follow-button" name="followButton">Follow User</button>
+            <button type="submit" class="follow-button" name="followButton" value="2">Follow User</button>
         </form>
         {{/if}}
     {{/if}}
@@ -69,8 +67,7 @@
             {{#each allFollowing}}
                 <p>{{this.firstName}} {{this.lastName}}</p>
                 <form method="POST">
-                    <input name="visitButton" type="hidden" value="{{this.email}}">
-                    <button type="submit" class="visit-button" name="visitButton">Visit Profile</button>
+                    <button type="submit" class="visit-button" value="{{this.email}}" name="visitButton">Visit Profile</button>
                 </form>
                 <br>
             {{/each}}

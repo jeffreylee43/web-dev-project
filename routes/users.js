@@ -49,8 +49,7 @@ router.post('/dashboard/:email', async (req, res) => {
     }
     try{
         if (req.body.addButton){
-            let addInput = req.body.addButton;
-            let stockTicker = addInput[0];
+            let stockTicker = req.body.addButton;
             const company = await companies.getCompany(stockTicker);
             let actionItem = "" + new Date() + ": Added company " + company.name + " to Dashboard.";
             const updateHistory = await traders.addTraderHistory(req.session.user._id, actionItem);
@@ -92,11 +91,11 @@ router.post('/dashboard', async (req, res) => {
                 res.status(404).render("../views/users/error",{title: "Error Found", searchTerm: search})
                 return;
             } else {
-                const companyExists = await companies.getCompany(company.ticker);
-                if (!companyExists){
-                    let company2 = await companies.addCompany(search);
+                try {
+                    let companyExists = await companies.getCompany(company.ticker);
                     res.redirect(`/companies/${search}`);
-                } else {
+                } catch (e){
+                    let company2 = await companies.addCompany(search);
                     res.redirect(`/companies/${search}`);
                 }
             }
@@ -116,16 +115,14 @@ router.post('/dashboard', async (req, res) => {
                 traderCompanies: traderCompanies
             });
         } else if (req.body.addButton) {
-            let addInput = req.body.addButton;
-            let stockTicker = addInput[0];
+            let stockTicker = req.body.addButton;
             const company = await companies.getCompany(stockTicker);
             let actionItem = "" + new Date() + ": Added company " + company.name + " to Dashboard.";
             const updateHistory = await traders.addTraderHistory(req.session.user._id, actionItem);
             const addToDashBoard = await companies.addStockDashboard(req.session.user._id, company._id);
             res.redirect('/users/dashboard');
         } else if (req.body.removeButton) {
-            let removeInput = req.body.removeButton;
-            let stockTicker = removeInput[0];
+            let stockTicker = req.body.removeButton;
             const company = await companies.getCompany(stockTicker);
             let actionItem = "" + new Date() + ": Removed company " + company.name + " from Dashboard.";
             const updateHistory = await traders.addTraderHistory(req.session.user._id, actionItem);
