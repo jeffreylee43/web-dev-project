@@ -1,8 +1,11 @@
 $(document).ready(() => {
     $('#newsSubmit').submit((e) => {
         e.preventDefault();
-        $('#myHeader').empty()
-        if($('#newsTerm').val().trim()){
+        
+        if($.trim($('#newsTerm').val()) == ''){
+            alert('Input can not be left blank');
+        }else{
+            $('#myHeader').empty()
             $.ajax({
                 
                 url: `https://newsapi.org/v2/top-headlines?language=en&q=${$('#newsTerm').val()}&apiKey=aaaaad37e47549f694b2d4f9940c4e09`,
@@ -20,7 +23,9 @@ $(document).ready(() => {
                 $(".top-news-div").append(article);
                 })
                 $('#myHeader').empty();
+                
                 let header = `Results for: ${$('#newsTerm').val()} `
+                $("#newsTerm").val("")
                 $('#myHeader').append(header)
                 if(data.articles.length == 0){
                     let error = `<p> No news found for ${$('#newsTerm').val()}  within the past day`
