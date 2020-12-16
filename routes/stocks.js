@@ -56,8 +56,7 @@ router.post('/stocksList', async (req, res) => {
             actionItem
         );
         if (req.body.addButton){
-            let addInput = xss(req.body.addButton);
-            let stockTicker = addInput;
+            let stockTicker = xss(req.body.addButton);
             const company = await companies.getCompany(stockTicker);
             let actionItem = "" + new Date() + ": Added company " + company.name + " to Dashboard.";
             const updateHistory = await traders.addTraderHistory(req.session.user._id, actionItem);
