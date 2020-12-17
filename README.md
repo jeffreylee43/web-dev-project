@@ -43,32 +43,44 @@ This project features a stocks dashboard. Users can login to their account and t
 -Shows users a list of recommended stocks based on the ones that they have picked in their dashboard.
 
 # How to Run  
-
-Download git: https://git-scm.com/downloads
-Download node: https://nodejs.org/en/download/
-Download MongoDB: https://docs.mongodb.com/compass/master/install
-
-Using Git Bash move to the directory that you would like to clone the project to. 
-
-```cd (directory)```
-Retrieve the URL to clone: https://github.com/jeffreylee43/web-dev-project.git
-
-Type ```git clone``` and paste the URL you copied:
-```git clone https://github.com/jeffreylee43/web-dev-project.git```
-
-Open your command prompt
-
-Change your current directory to the cloned directory
-```cd (directory)```
-
+  
+Download git: https://git-scm.com/downloads  
+Download node: https://nodejs.org/en/download/  
+Download MongoDB: https://docs.mongodb.com/compass/master/install  
+  
+Using Git Bash move to the directory that you would like to clone the project to.  
+  
+```
+cd (directory)
+```  
+Retrieve the URL to clone: https://github.com/jeffreylee43/web-dev-project.git  
+  
+Type ```git clone``` and paste the URL you copied:  
+```
+git clone https://github.com/jeffreylee43/web-dev-project.git
+```  
+  
+Open your command prompt  
+  
+Change your current directory to the cloned directory  
+```
+cd (directory)
+```  
+  
 Use the following command to install the Node_modules packages:  
-``` npm install (package) ```  
-
+```
+npm install (package)
+```  
+  
 Start the MongoDB server and initialize the database using the seed command:  
-```npm run seed```  
-
+```
+npm run seed
+```  
+  
 Run the project  
-```npm start```  
+```
+npm start
+```  
 
 The website will be hosted on localhost:3000  
 
