@@ -1,5 +1,42 @@
 # CS546 Web Programming Final Project, Team 5
 
+# How to Run  
+After cloning or downloading the files, move to the directory that contains ```app.js```.
+
+Use the following command to install the dependencies:  
+```
+npm install
+```  
+  
+In order to populate the website with data, use the following command to run the seed task:  
+```
+npm run seed
+```  
+  
+Run the project  
+```
+npm start
+```  
+
+The website will be hosted on localhost:3000  
+
+## Information for Logging In
+Email Address: asmith@stevens.edu | Password: abcd
+
+You can also check the account information of other users that are created in ```seed.js```.
+
+## Note:
+We used the Finnhub API and the API provides 60 API calls per minute. Some of the functions in ```seed.js``` make calls to the Finnhub API. For some reason, if you receive an error about exceeding the limit of API calls when running the seed or browsing through our website, please wait for a minute and try again.
+
+We mainly used Google Chrome when running and testing our project, so we highly recommend using Google Chrome when running our website.
+
+# Group Members:  
+Siddhanth Patel  
+Jeffrey Lee  
+Adam Farid  
+Cheng Cheng  
+
+
 # Introduction:  
 Given the latest rise of retail investors, there have been a wide variety of options available for traders to add and view stocks. However, these options can sometimes be confusing and distracting for new and inexperienced traders. We hope to provide a solution to this issue by building a web application that allows users to select, add, and remove stocks to their dashboard.
 
@@ -41,51 +78,3 @@ This project features a stocks dashboard. Users can login to their account and t
 
 ## Stock Suggestions Page:
 -Shows users a list of recommended stocks based on the ones that they have picked in their dashboard.
-
-# How to Run  
-  
-Download git: https://git-scm.com/downloads  
-Download node: https://nodejs.org/en/download/  
-Download MongoDB: https://docs.mongodb.com/compass/master/install  
-  
-Using Git Bash move to the directory that you would like to clone the project to.  
-  
-```
-cd (directory)
-```  
-Retrieve the URL to clone: https://github.com/jeffreylee43/web-dev-project.git  
-  
-Type ```git clone``` and paste the URL you copied:  
-```
-git clone https://github.com/jeffreylee43/web-dev-project.git
-```  
-  
-Open your command prompt  
-  
-Change your current directory to the cloned directory  
-```
-cd (directory)
-```  
-  
-Use the following command to install the Node_modules packages:  
-```
-npm install (package)
-```  
-  
-Start the MongoDB server and initialize the database using the seed command:  
-```
-npm run seed
-```  
-  
-Run the project  
-```
-npm start
-```  
-
-The website will be hosted on localhost:3000  
-
-# Group Members:  
-Siddhanth Patel  
-Jeffrey Lee  
-Adam Farid  
-Cheng Cheng  
