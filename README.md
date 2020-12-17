@@ -1,5 +1,3 @@
-# web-dev-project
-
 # CS546 Web Programming Final Project, Team 5
 
 # Introduction:  
@@ -7,19 +5,6 @@ Given the latest rise of retail investors, there have been a wide variety of opt
 
 # Description:  
 This project features a stocks dashboard. Users can login to their account and then select, add, or view stocks that they want to keep track of. Each stock features a brief description of the company and showcases the average review based on users’ opinions. The dashboard uses an api that tracks stocks graph data live. Each individual stock page contains the stock’s overall description such as name, ticker, description, price of stock, market cap, industry, and number of employees. Users will have the ability to comment their opinions on these individual stock pages and provide their rating out of 5 stars for all other users to see. The database will store the company names, stock symbols, description, and users’ average ratings.
-
-# How to Run  
-
-Using git, clone the respository and then use the following command to install the Node_modules packages:  
-``` npm install (package) ```  
-
-Start the MongoDB server, and initialize the Database using the seed command:  
-```npm run seed```  
-
-Run the project  
-```npm start```  
-
-It will be hosted on localhost:3000  
 
 # Core Features:  
 
@@ -56,6 +41,36 @@ It will be hosted on localhost:3000
 
 ## Stock Suggestions Page:
 -Shows users a list of recommended stocks based on the ones that they have picked in their dashboard.
+
+# How to Run  
+
+Download git: https://git-scm.com/downloads
+Download node: https://nodejs.org/en/download/
+Download MongoDB: https://docs.mongodb.com/compass/master/install
+
+Using Git Bash move to the directory that you would like to clone the project to. 
+
+```cd (directory)```
+Retrieve the URL to clone: https://github.com/jeffreylee43/web-dev-project.git
+
+Type ```git clone``` and paste the URL you copied:
+```git clone https://github.com/jeffreylee43/web-dev-project.git```
+
+Open your command prompt
+
+Change your current directory to the cloned directory
+```cd (directory)```
+
+Use the following command to install the Node_modules packages:  
+``` npm install (package) ```  
+
+Start the MongoDB server and initialize the database using the seed command:  
+```npm run seed```  
+
+Run the project  
+```npm start```  
+
+The website will be hosted on localhost:3000  
 
 # Group Members:  
 Siddhanth Patel  
