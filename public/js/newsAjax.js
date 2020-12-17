@@ -25,12 +25,12 @@ $(document).ready(() => {
                 $('#myHeader').empty();
                 
                 let header = `Results for: ${$('#newsTerm').val()} `
-                $("#newsTerm").val("")
                 $('#myHeader').append(header)
                 if(data.articles.length == 0){
                     let error = `<p> No news found for ${$('#newsTerm').val()}  within the past day`
                     $(".top-news-div").append(error);
                 }
+                $("#newsTerm").val("")
             })
         }
     })
