@@ -25,7 +25,9 @@ Email Address: asmith@stevens.edu | Password: abcd
 
 You can also check the account information of other users that are created in ```seed.js```.
 
-## Note:
+## Important Note:
+It may take between 40-90 seconds to run the seed because we add 8 users/traders to the database using the addNewTrader function and the addNewTrader function hashes the password, which is most likely why the seed task takes a while to complete. So, if the seed task takes a while to complete, please wait for a minute or two.
+
 We used the Finnhub API and the API provides 60 API calls per minute. Some of the functions in ```seed.js``` make calls to the Finnhub API. For some reason, if you receive an error about exceeding the limit of API calls when running the seed or browsing through our website, please wait for a minute and try again.
 
 We mainly used Google Chrome when running and testing our project, so we highly recommend using Google Chrome when running our website.
